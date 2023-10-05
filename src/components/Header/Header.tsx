@@ -39,7 +39,7 @@ export default function Header() {
     });
   };
   return (
-    <div key={currentIndex} className="p-[300px] text-white group relative" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
+    <div key={currentIndex} className="py-[300px] px-[17.5%] text-white group relative" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
       <div className="progress"></div>
       <ArrowBackIosOutlinedIcon className="arrow left-10" onClick={handleNextBtn} />
       <div className="relative z-10">
@@ -49,7 +49,9 @@ export default function Header() {
         <p className="text-sm mt-4 mb-12 animate-text" style={{ animationDuration: "1.2s" }}>
           From luxury watches and chronographs to wall clocks <br /> and weather stations, Henning Koppel's.
         </p>
-        <button className="bg-white text-black py-3 px-7 font-medium text-xs animate-btn">DISCOVER NOW</button>
+        <button className="bg-white text-black py-3 px-10 font-medium text-sm animate-btn">
+          <span>DISCOVER NOW</span>
+        </button>
       </div>
       <ArrowForwardIosOutlinedIcon className="arrow right-10" onClick={handlePrevBtn} />
     </div>

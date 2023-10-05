@@ -58,3 +58,7 @@ nav li.active {
     transform: translateY(0);
   }
 }
+
+.search-box {
+  @apply translate-y-0 visible opacity-100;
+}

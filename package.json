@@ -14,7 +14,7 @@
     "@material-tailwind/react": "^2.1.2",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
-    "next": "latest",
+    "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest"
   },
@@ -26,6 +26,8 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "postcss": "latest",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.5",
     "tailwindcss": "latest",
     "typescript": "latest"
   }

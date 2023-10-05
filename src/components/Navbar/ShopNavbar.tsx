@@ -6,10 +6,10 @@ import { useRef } from "react";
 
 export default function ShopNavbar() {
   const shopNavbar = useRef<HTMLDivElement>(null);
-  const handleMouseOver = () => {
+  const handleButtonEnter = () => {
     shopNavbar.current?.classList.add("show");
   };
-  const handleMouseOut = () => {
+  const handleButtonLeave = () => {
     setTimeout(() => {
       shopNavbar.current?.classList.remove("show");
     }, 100);
@@ -26,7 +26,7 @@ export default function ShopNavbar() {
   };
   return (
     <>
-      <Link href="/shop" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+      <Link href="/shop" onMouseEnter={handleButtonEnter} onMouseLeave={handleButtonLeave}>
         <div className="flex-center">
           Shop
           <KeyboardArrowDownOutlinedIcon />

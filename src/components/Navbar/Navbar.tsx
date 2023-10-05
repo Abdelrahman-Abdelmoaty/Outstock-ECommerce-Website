@@ -1,6 +1,5 @@
 "use client";
 import "@src/components/Navbar/Navbar.css";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import logo from "@public/assets/images/logo-header.png";
 import Link from "next/link";
 import Searchbox from "./Searchbox";
@@ -8,6 +7,7 @@ import Cartbox from "./Cartbox";
 import ShopNavbar from "./ShopNavbar";
 import PagesNavbar from "./PagesNavbar";
 import { useEffect, useRef } from "react";
+import SignOptions from "./SignOptions";
 export default function Navbar() {
   const navbar = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -54,9 +54,7 @@ export default function Navbar() {
           <Cartbox />
         </li>
         <li>
-          <div>
-            <MenuOutlinedIcon />
-          </div>
+          <SignOptions />
         </li>
       </ul>
     </nav>

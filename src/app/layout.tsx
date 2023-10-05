@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={poppins.className}>
         <Navbar />
         <Header />
-        <div className="container mb-[10000px]">{children}</div>
+        <div className="bg-[var(--primary-color)]">{children}</div>
       </body>
     </html>
   );

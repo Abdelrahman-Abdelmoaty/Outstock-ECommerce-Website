@@ -4,10 +4,10 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 
 export default function PagesNavbar() {
   const pagesNavbar = useRef<HTMLUListElement>(null);
-  const handleMouseOver = () => {
+  const handleButtonEnter = () => {
     pagesNavbar.current?.classList.add("show");
   };
-  const handleMouseOut = () => {
+  const handleButtonLeave = () => {
     setTimeout(() => {
       pagesNavbar.current?.classList.remove("show");
     }, 100);
@@ -24,7 +24,7 @@ export default function PagesNavbar() {
   };
   return (
     <>
-      <Link href="/pages" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+      <Link href="/pages" onMouseEnter={handleButtonEnter} onMouseLeave={handleButtonLeave}>
         <div className="flex-center">
           Pages
           <KeyboardArrowDownOutlinedIcon />

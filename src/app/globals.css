@@ -24,3 +24,11 @@ body {
 .container {
   @apply w-[60%] mx-auto z-10 h-screen;
 }
+
+.ease-500 {
+  @apply duration-500 ease-in-out;
+}
+
+.img-fill {
+  @apply w-full h-full object-cover;
+}
