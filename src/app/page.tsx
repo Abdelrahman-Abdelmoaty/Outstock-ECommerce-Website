@@ -12,19 +12,15 @@ import SmallWideCard from "@src/components/Content/SmallWideCard";
 
 export default function Home() {
   return (
-    <main className="flex flex-col mx-auto w-[1170px] mb-[10000px] p-8 bg-white shadow mt-[-100px] relative z-[9999]">
-      <div className="flex justify-between">
-        <SmallWideCard text="British Made Pocket Knife - Oak" src={smallCard1.src} />
-        <SmallWideCard text="Chair Kimi No Isu Project" src={smallCard2.src} />
-        <SmallWideCard text="Merino Lambswool Scarf Moss" src={smallCard3.src} />
-      </div>
+    <main className="w-[100%] xl:w-[60%]  mx-auto pb-[10000px] p-8 bg-white shadow xl:mt-[-100px] relative z-[9999] grid grid-cols-1 sm:grid-cols-3 gap-x-5">
+      <SmallWideCard text="British Made Pocket Knife - Oak" src={smallCard1.src} />
+      <SmallWideCard text="Chair Kimi No Isu Project" src={smallCard2.src} />
+      <SmallWideCard text="Merino Lambswool Scarf Moss" src={smallCard3.src} />
       <Heading title="New Products" />
-      <div className="flex justify-between">
-        <Card src={card1.src} secondSrc={card1Second.src} text="British Made Pocket Knife - Oak" rating={5} price={86} discount={5} newProduct={true} />
-        <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} />
-        <Card src={card3.src} text="E27 PENDANT LAMP" rating={5} price={96} discount={74} />
-        <Card src={card4.src} text="Form Chair Normann Black" rating={4.5} price={200} discount={50} />
-      </div>
+      <Card src={card1.src} secondSrc={card1Second.src} text="British Made Pocket Knife - Oak" rating={5} price={86} discount={5} newProduct={true} />
+      <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} />
+      <Card src={card3.src} text="E27 PENDANT LAMP" rating={5} price={96} discount={74} />
+      <Card src={card4.src} text="Form Chair Normann Black" rating={4.5} price={200} discount={50} />
     </main>
   );
 }

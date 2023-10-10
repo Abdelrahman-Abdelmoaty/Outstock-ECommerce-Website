@@ -4,7 +4,9 @@ export default function Cartbox() {
     <div className="flex-center">
       <LocalMallOutlinedIcon className="mb-1 mr-1" />
       <div className="flex-center">
-        Cart <span>(0)</span>
+        <span className="hidden xl:block">
+          Cart <span>(0)</span>
+        </span>
       </div>
     </div>
   );

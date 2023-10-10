@@ -1,8 +1,9 @@
 nav li {
-  @apply px-4 hover:cursor-pointer hover:text-[var(--secondary-color)] duration-300 ease-in-out;
+  @apply px-1 xl:px-4 hover:cursor-pointer hover:text-[var(--secondary-color)] duration-300 ease-in-out;
 }
 
-nav li.active {
+nav li.active,
+nav button.active {
   @apply text-[var(--secondary-color)];
 }
 
@@ -24,7 +25,7 @@ nav li.active {
 
 @keyframes navbar-animation {
   from {
-    transform: translateY(-92px);
+    transform: translateY(-100px);
     opacity: 0;
   }
   to {
@@ -40,12 +41,6 @@ nav li.active {
   visibility: visible;
 }
 
-.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
 @keyframes shop-list-animation {
   from {
     opacity: 0;
@@ -59,6 +54,8 @@ nav li.active {
   }
 }
 
-.search-box {
-  @apply translate-y-0 visible opacity-100;
+.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }

@@ -39,9 +39,9 @@ export default function Header() {
     });
   };
   return (
-    <div key={currentIndex} className="py-[300px] px-[17.5%] text-white group relative" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
+    <div key={currentIndex} className="py-[10rem] xl:py-[19rem] px-[5%] xl:px-[20%] text-white group relative bg-cover bg-center" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
       <div className="progress"></div>
-      <ArrowBackIosOutlinedIcon className="arrow left-10" onClick={handleNextBtn} />
+      <ArrowBackIosOutlinedIcon className="arrow left-10 invisible md:visible" onClick={handleNextBtn} />
       <div className="relative z-10">
         <p className="font-bold text-4xl animate-text">
           Lighting <br /> Creative Furniture
@@ -53,7 +53,7 @@ export default function Header() {
           <span>DISCOVER NOW</span>
         </button>
       </div>
-      <ArrowForwardIosOutlinedIcon className="arrow right-10" onClick={handlePrevBtn} />
+      <ArrowForwardIosOutlinedIcon className="arrow right-10 invisible md:visible" onClick={handlePrevBtn} />
     </div>
   );
 }

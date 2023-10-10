@@ -4,25 +4,21 @@
 :root {
   --primary-color: #f5f5f5;
   --secondary-color: #bc8246;
-  --nav-font-color: #a3a3a3;
+  --font-color: #a3a3a3;
 }
 * {
   box-sizing: border-box;
 }
-a {
+body {
+  @apply bg-white min-h-screen scroll-smooth;
+}
+a,
+li {
   @apply hover:cursor-pointer;
 }
 
 .flex-center {
   @apply flex items-center justify-center;
-}
-
-body {
-  @apply bg-white min-h-screen scroll-smooth;
-}
-
-.container {
-  @apply w-[60%] mx-auto z-10 h-screen;
 }
 
 .ease-500 {
@@ -31,4 +27,10 @@ body {
 
 .img-fill {
   @apply w-full h-full object-cover;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
 }

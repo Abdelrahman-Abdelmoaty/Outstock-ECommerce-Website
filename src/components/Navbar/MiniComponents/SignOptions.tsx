@@ -1,12 +1,12 @@
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-import Link from "next/link";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
+import Link from "next/link";
 import { useRef } from "react";
 export default function SignOptions() {
   const sidebar = useRef<HTMLDivElement>(null);
@@ -21,7 +21,7 @@ export default function SignOptions() {
       <button type="button" onClick={handleOpen}>
         <MenuOutlinedIcon />
       </button>
-      <div ref={sidebar} className="fixed right-0 translate-x-[100%] top-0 bg-white text-[var(--nav-font-color)] h-screen p-12 duration-1000 ease-in-out shadow">
+      <div ref={sidebar} className="fixed right-0 translate-x-[100%] top-0 bg-white text-[var(--nav-font-color)] h-screen p-12 duration-1000 ease-in-out shadow w-screen xl:w-auto">
         <button type="button" onClick={handleClose}>
           <CloseIcon className="text-black text-4xl mb-12" />
         </button>
