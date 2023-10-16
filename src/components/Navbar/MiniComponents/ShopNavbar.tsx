@@ -42,13 +42,13 @@ export default function ShopNavbar() {
           <thead>
             <tr>
               <th className="text-black font-normal">
-                <Link href="">Litter Trees</Link>
+                <p>Litter Trees</p>
               </th>
               <th className="text-black font-normal">
-                <Link href="">Chair Kimi</Link>
+                <p>Chair Kimi</p>
               </th>
               <th className="text-black font-normal">
-                <Link href="">Balans Chair</Link>
+                <p>Balans Chair</p>
               </th>
             </tr>
           </thead>

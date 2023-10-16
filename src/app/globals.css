@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,10 +11,10 @@
   box-sizing: border-box;
 }
 body {
-  @apply bg-white min-h-screen scroll-smooth;
+  @apply bg-white min-h-screen scroll-smooth bg-[var(--primary-color)];
+  font-family: "Poppins", sans-serif;
 }
-a,
-li {
+li a {
   @apply hover:cursor-pointer;
 }
 
@@ -29,8 +30,95 @@ li {
   @apply w-full h-full object-cover;
 }
 
+li a:hover {
+  @apply hv-eff;
+}
+.hv-eff {
+  @apply hover:text-[var(--secondary-color)] duration-300 ease-in-out cursor-pointer;
+}
+
 @media (max-width: 768px) {
   html {
     font-size: 14px;
   }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.animate-btn span {
+  position: relative;
+  z-index: 20;
+  transition-delay: 0.1s;
+}
+.animate-btn {
+  background-color: white;
+  position: relative;
+  transition: 0.3s ease-in-out;
+}
+.animate-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease-in-out;
+  background-color: var(--secondary-color);
+}
+.animate-btn:hover::after {
+  height: 100%;
+}
+.animate-btn:hover {
+  transform: scale(1.02);
+}
+.animate-btn:hover span {
+  color: white;
+}
+@keyframes btn-effect {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+.loading-part {
+  height: 2rem;
+  width: 0.4rem;
+  background-color: var(--secondary-color);
+  animation: loading-animation 1s ease infinite;
+  margin: 0.1rem;
+}
+@keyframes loading-animation {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+}
+
+.loading-part:nth-of-type(1) {
+  animation-delay: 0.6s;
+}
+
+.loading-part:nth-of-type(2) {
+  animation-delay: 0.3s;
+}
+
+.loading-part:nth-of-type(3) {
+  animation-delay: 0;
+}
+
+.loading-part:nth-of-type(4) {
+  animation-delay: 0.3s;
+}
+
+.loading-part:nth-of-type(5) {
+  animation-delay: 0.6s;
 }

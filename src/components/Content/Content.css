@@ -54,3 +54,34 @@
 .discount-label::after {
   border-color: #535353 transparent transparent #535353;
 }
+
+.animate-btn span {
+  position: relative;
+  z-index: 20;
+  transition-delay: 0.1s;
+}
+.animate-btn {
+  background-color: white;
+  position: relative;
+  transition: 0.3s ease-in-out;
+}
+.animate-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease-in-out;
+  background-color: var(--secondary-color);
+}
+.animate-btn:hover::after {
+  height: 100%;
+}
+.animate-btn:hover {
+  transform: scale(1.01);
+  border-color: var(--secondary-color);
+}
+.animate-btn:hover span {
+  color: white;
+}

@@ -1,0 +1,44 @@
+.arrow {
+  @apply fill-black absolute top-[50%] translate-y-[-50%] text-sm rounded-full box-content p-3 bg-white transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer group-hover:opacity-100 opacity-0 hover:bg-[var(--secondary-color)] z-50 hover:fill-white;
+}
+
+.progress {
+  @apply h-[5px] bg-[#666] absolute top-0 left-0 w-0;
+  animation: full-width 5s linear;
+}
+
+@keyframes full-width {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-text {
+  animation: text-effect ease-in-out 1s;
+}
+@keyframes text-effect {
+  from {
+    scale: 0;
+    transform: translateX(150px);
+  }
+  to {
+    scale: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes btn-effect {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+.animate-btn-scale {
+  animation: btn-effect ease-in-out 0.5s;
+}

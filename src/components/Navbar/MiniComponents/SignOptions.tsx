@@ -1,4 +1,3 @@
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -18,8 +17,12 @@ export default function SignOptions() {
   };
   return (
     <>
-      <button type="button" onClick={handleOpen}>
-        <MenuOutlinedIcon />
+      <button type="button" onClick={handleOpen} className="hv-eff flex-center">
+        <div>
+          <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </div>
       </button>
       <div ref={sidebar} className="fixed right-0 translate-x-[100%] top-0 bg-white text-[var(--nav-font-color)] h-screen p-12 duration-1000 ease-in-out shadow w-screen xl:w-auto">
         <button type="button" onClick={handleClose}>
@@ -27,11 +30,11 @@ export default function SignOptions() {
         </button>
         <div className="text-black flex items-center gap-x-2 mb-4">
           <PermIdentityOutlinedIcon className="text-3xl font-light mb-1" />
-          <Link href="" className="font-semibold">
+          <Link href="/auth" className="font-semibold" onClick={handleClose}>
             Sign In
           </Link>
           <span className="font-medium"> or </span>
-          <Link href="" className="font-semibold">
+          <Link href="auth/signup" className="font-semibold" onClick={handleClose}>
             Create an Account
           </Link>
         </div>

@@ -1,5 +1,5 @@
 nav li {
-  @apply px-1 xl:px-4 hover:cursor-pointer hover:text-[var(--secondary-color)] duration-300 ease-in-out;
+  @apply px-1 xl:px-4 text-[var(--font-color)];
 }
 
 nav li.active,
@@ -8,7 +8,7 @@ nav button.active {
 }
 
 .shop-table th {
-  @apply text-start px-8 border-r-[1px] py-2 hover:text-[var(--secondary-color)];
+  @apply text-start px-8 border-r-[1px] py-2;
 }
 .shop-table td {
   @apply px-8 border-r-[1px] font-light text-sm py-2 whitespace-nowrap hover:text-[var(--secondary-color)];
@@ -21,6 +21,8 @@ nav button.active {
 .navbar-animation {
   animation: navbar-animation 0.8s;
   position: fixed;
+  background-color: var(--primary-color);
+  @apply shadow;
 }
 
 @keyframes navbar-animation {

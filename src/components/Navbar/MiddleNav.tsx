@@ -4,21 +4,23 @@ import { useRef } from "react";
 import ShopNavbar from "./MiniComponents/ShopNavbar";
 import PagesNavbar from "./MiniComponents/PagesNavbar";
 import CloseIcon from "@mui/icons-material/Close";
+import MobileLeftNav from "./MobileLeftNav";
 
 export default function MiddleNav() {
   const nav = useRef<HTMLDivElement>(null);
+  const mobileLeftNav = useRef<HTMLDivElement>(null);
   const handleLeftMenu = () => {
-    nav.current?.classList.remove("translate-x-[-100%]");
+    mobileLeftNav.current?.classList.remove("translate-x-[-100%]");
   };
   const handleClose = () => {
-    nav.current?.classList.add("translate-x-[-100%]");
+    mobileLeftNav.current?.classList.add("translate-x-[-100%]");
   };
   return (
     <div className="xl:order-2">
       <button className="xl:hidden text-black" onClick={handleLeftMenu}>
         <MenuOutlinedIcon />
       </button>
-      <div ref={nav} className="text-[var(--font-color)] ease-500 h-screen w-full p-10 text-2xl fixed bg-white left-0 top-0 translate-x-[-100%] xl:p-0 xl:text-base xl:h-auto xl:bg-inherit xl:translate-x-0 xl:static ">
+      <div ref={nav} className="text-[var(--font-color)] ease-500 w-full bg-white left-0 top-0 p-0 text-base h-auto bg-inherit translate-x-0 hidden xl:flex">
         <button type="button" onClick={handleClose} className="xl:hidden">
           <CloseIcon className="text-black text-4xl mb-12" />
         </button>
@@ -37,6 +39,7 @@ export default function MiddleNav() {
           </li>
         </ul>
       </div>
+      <MobileLeftNav reference={mobileLeftNav} />
     </div>
   );
 }

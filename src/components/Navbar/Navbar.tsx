@@ -23,8 +23,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div ref={navbar} className="w-full relative top-0 left-0 shadow bg-[var(--primary-color)] py-8 z-[999999] ">
-      <nav className="w-[90%] xl:w-[60%] font-medium flex items-center justify-between mx-auto">
+    <div ref={navbar} className="w-full relative top-0 left-0 bg-white py-8 z-[999999]">
+      <nav className="w-[90%] xl:w-[65%] font-medium flex items-center justify-between mx-auto">
         <Logo />
         <MiddleNav />
         <RightNav />
