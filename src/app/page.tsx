@@ -20,15 +20,13 @@ import blogImage1 from "@public/assets/images/blog12.jpeg";
 import blogImage2 from "@public/assets/images/blog11.jpeg";
 import blogImage3 from "@public/assets/images/blog9_1.jpeg";
 import Hero from "@src/components/Hero/Hero";
-import { cookies } from "next/headers";
-import { saveAccessToken } from "@src/lib/utils";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <div className="">
-        <main className="w-[100%]  xl:w-[80%] 2xl:w-[65%]  mx-auto p-8 bg-white shadow xl:mt-[-100px] xl:mb-[-100px] relative z-[9999]">
+      <div>
+        <main className="res-w p-8 bg-white shadow xl:mt-[-100px] xl:mb-[-100px] relative z-[9999]">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <SmallWideCard text="British Made Pocket Knife - Oak" src={smallCard1.src} />
             <SmallWideCard text="Chair Kimi No Isu Project" src={smallCard2.src} />

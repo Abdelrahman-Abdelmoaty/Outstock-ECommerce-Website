@@ -13,7 +13,7 @@ import RssFeedOutlinedIcon from "@mui/icons-material/RssFeedOutlined";
 export default function Footer() {
   return (
     <div className="bg-[#232323] text-[#6c6c6c] text-sm mt-auto">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-40 w-[65%] mx-auto pb-16">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-40 w-[65%] mx-auto pb-16 res-w">
         <div className="col-span-2 flex flex-col gap-y-4">
           <Link href="/">
             <div className="mb-6">

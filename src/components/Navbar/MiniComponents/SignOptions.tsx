@@ -1,3 +1,4 @@
+"use client";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -7,13 +8,21 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
 import Link from "next/link";
 import { useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@src/redux/store";
+import { logout } from "@src/redux/slices/authSlice";
 export default function SignOptions() {
+  const isLoggedIn = useAppSelector((state) => state.auth.isAuthenticated);
   const sidebar = useRef<HTMLDivElement>(null);
   const handleOpen = () => {
     sidebar.current?.classList.toggle("translate-x-[100%]");
+    // console.log(isLoggedIn);
   };
   const handleClose = () => {
     sidebar.current?.classList.toggle("translate-x-[100%]");
+  };
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
   };
   return (
     <>
@@ -28,16 +37,24 @@ export default function SignOptions() {
         <button type="button" onClick={handleClose}>
           <CloseIcon className="text-black text-4xl mb-12" />
         </button>
-        <div className="text-black flex items-center gap-x-2 mb-4">
-          <PermIdentityOutlinedIcon className="text-3xl font-light mb-1" />
-          <Link href="/auth" className="font-semibold" onClick={handleClose}>
-            Sign In
-          </Link>
-          <span className="font-medium"> or </span>
-          <Link href="auth/signup" className="font-semibold" onClick={handleClose}>
-            Create an Account
-          </Link>
-        </div>
+        {isLoggedIn ? (
+          <div>
+            <button className="font-semibold text-black mb-4 border px-4 py-2 hover:bg-black hover:text-white ease-500" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="text-black flex items-center gap-x-2 mb-4">
+            <PermIdentityOutlinedIcon className="text-3xl font-light mb-1" />
+            <Link href="/auth" className="font-semibold" onClick={handleClose}>
+              Sign In
+            </Link>
+            <span className="font-medium"> or </span>
+            <Link href="auth/signup" className="font-semibold" onClick={handleClose}>
+              Create an Account
+            </Link>
+          </div>
+        )}
         <div className="flex text-black gap-x-5 mb-12">
           <div>
             <button className="flex-center">

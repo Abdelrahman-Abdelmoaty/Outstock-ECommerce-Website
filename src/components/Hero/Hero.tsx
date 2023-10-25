@@ -39,7 +39,7 @@ export default function Hero() {
     });
   };
   return (
-    <div key={currentIndex} className="py-[10rem] xl:py-[19rem] px-[5%]xl:px-[17.5%] text-white group relative bg-cover bg-center" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
+    <div key={currentIndex} className="w-screen py-[10rem] xl:py-[19rem] text-white group relative bg-cover bg-center" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
       <div className="progress"></div>
       <ArrowBackIosOutlinedIcon className="arrow left-10 invisible xl:visible" onClick={handleNextBtn} />
       <div className="w-[90%] xl:w-[65%] mx-auto">

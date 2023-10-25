@@ -3,8 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import favicon from "@public/assets/images/favi.png";
 import Footer from "@src/components/Footer/Footer";
-import { Provider } from "react-redux";
-import store from "@src/redux/store";
+import ReduxProvider from "@src/redux/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Outstock E-Commerce Website",
@@ -17,12 +16,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <Provider store={store}>
+      <body className="">
+        <ReduxProvider>
+          {/* <div className="w-[100%]  xl:w-[80%] 2xl:w-[65%] mx-auto bg-white px-2 flex flex-col items-center"> */}
           <Navbar />
           {children}
           <Footer />
-        </Provider>
+          {/* </div> */}
+        </ReduxProvider>
       </body>
     </html>
   );

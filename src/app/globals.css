@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   --primary-color: #f5f5f5;
   --secondary-color: #bc8246;
@@ -11,11 +12,13 @@
   box-sizing: border-box;
 }
 body {
-  @apply bg-white min-h-screen scroll-smooth bg-[var(--primary-color)];
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
 }
 li a {
   @apply hover:cursor-pointer;
+}
+.res-w {
+  @apply w-[100%]  xl:w-[80%] 2xl:w-[65%] px-5 xl:mx-auto;
 }
 
 .flex-center {

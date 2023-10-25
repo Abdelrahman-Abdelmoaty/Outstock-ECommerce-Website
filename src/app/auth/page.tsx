@@ -1,28 +1,21 @@
 "use client";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@src/components/Form/Input";
 import FacebookLogin from "@src/components/auth/FacebookLogin";
 import GoogleLogin from "@src/components/auth/GoogleLogin";
-import { saveAccessToken } from "@src/lib/utils";
-import axios from "axios";
-import { useState } from "react";
+import { loginSchema } from "@src/lib/schemas";
+import { login } from "@src/redux/slices/authSlice";
+import { useAppDispatch } from "@src/redux/store";
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 
 export default function Login() {
-  const [error, setError] = useState<boolean>(false);
-  const methods = useForm();
-  // const dispatch = useApp
-  const onSubmit = methods.handleSubmit((data) => {
-    setError(false);
-
-    // (async function () {
-    //   try {
-    //     const response = await axios.post("http://127.0.0.1:8000/api/auth/login", data);
-    //     saveAccessToken(response.data.token);
-    //     open("/", "_self");
-    //   } catch (error) {
-    //     setError(true);
-    //   }
-    // })();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const methods = useForm({ resolver: yupResolver(loginSchema) });
+  const onSubmit = methods.handleSubmit((data: { email: string; password: string }) => {
+    dispatch(login(data));
+    router.replace("/");
   });
   return (
     <div className="bg-white pb-96">
@@ -33,15 +26,14 @@ export default function Login() {
             <p className="text-[#333] text-2xl font-semibold mb-1">Registered Customers</p>
             <p className="text-[#666] text-sm">If you have an account, sign in with your email address.</p>
             <FormProvider {...methods}>
-              <form onSubmit={(e) => e.preventDefault()} noValidate>
-                <Input name="email" type="email" />
-                <Input name="password" type="password" />
-              </form>
-              {error && <p className="text-white bg-red-500 p-2">Wrong email or password</p>}
+              <Input label="email" name="email" type="email" />
+              {methods.formState.errors.email && <p className="text-red-500">{methods.formState.errors.email.message}</p>}
+              <Input label="password" name="password" type="password" />
+              {methods.formState.errors.password && <p className="text-red-500">{methods.formState.errors.password.message}</p>}
               <a href="" className="hv-eff text-[#666] text-sm inline-block mt-2 mb-6">
                 Forgot Your Password?
               </a>
-              <button className="block border-2 border-black font-semibold text-xs uppercase px-16 py-4 animate-btn hover:border-[var(--secondary-color)]" onClick={onSubmit}>
+              <button type="submit" className="block border-2 border-black font-semibold text-xs uppercase px-16 py-4 animate-btn hover:border-[var(--secondary-color)]" onClick={onSubmit}>
                 <span>Sign in</span>
               </button>
             </FormProvider>

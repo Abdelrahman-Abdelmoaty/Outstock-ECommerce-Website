@@ -12,7 +12,7 @@ export default function RightNav() {
         <Cartbox />
       </li>
       <li className="pr-0">
-        <SignOptions />
+          <SignOptions />
       </li>
     </ul>
   );

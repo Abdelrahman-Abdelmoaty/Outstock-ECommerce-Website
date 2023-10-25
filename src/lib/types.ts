@@ -16,13 +16,6 @@ export type BlogPost = {
   desc: string;
 };
 
-export type User = {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-};
-
 // //////////////////////////
 export type Product = {
   id: number;
@@ -31,13 +24,31 @@ export type Product = {
   quantity: number;
   rating: number;
   images: string[];
-  category: Category;
-  discount: number;
-  date: string;
-  color: string;
+  category?: string;
+  discount?: number;
+  date?: string;
+  color?: string;
 };
 
-export type Category = {
+export type loginCredintials = {
+  email: string;
+  password: string;
+};
+
+export type User = {
   id: string;
   name: string;
+  username: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+};
+
+export type signupFormData = {
+  name: string;
+  username: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
 };

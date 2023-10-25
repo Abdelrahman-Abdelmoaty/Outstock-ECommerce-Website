@@ -1,15 +1,12 @@
-// reducers.ts
-
 import { combineReducers } from "redux";
-import userReducer from "./userSlice";
-import productReducer from "./productSlice";
-import loginReducer from "./loginSlice";
+import userReducer from "./slices/userSlice";
+import productReducer from "./slices/productSlice";
+import authReducer from "./slices/authSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   product: productReducer,
-  login: loginReducer,
-  // Add more reducers as needed
+  auth: authReducer,
 });
 
 export default rootReducer;
