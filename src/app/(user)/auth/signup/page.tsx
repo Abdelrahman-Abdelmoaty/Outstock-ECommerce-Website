@@ -2,8 +2,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@src/components/Form/Input";
 import LoadingComponent from "@src/components/LoadingComponent";
-import FacebookLogin from "@src/components/auth/FacebookLogin";
-import GoogleLogin from "@src/components/auth/GoogleLogin";
+import FacebookLogin from "@src/app/auth/(components)/FacebookLogin";
+import GoogleLogin from "@src/app/auth/(components)/GoogleLogin";
 import { signupSchema } from "@src/lib/schemas";
 import { signup } from "@src/redux/slices/authSlice";
 import { useState } from "react";

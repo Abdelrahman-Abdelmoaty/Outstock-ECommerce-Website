@@ -14,18 +14,17 @@ export default function SignOptions() {
   const isLoggedIn = useAppSelector((state) => state.auth.isAuthenticated);
   const sidebar = useRef<HTMLDivElement>(null);
   const handleOpen = () => {
-    sidebar.current?.classList.toggle("translate-x-[100%]");
-    // console.log(isLoggedIn);
+    sidebar.current?.classList.remove("translate-x-[100%]");
   };
   const handleClose = () => {
-    sidebar.current?.classList.toggle("translate-x-[100%]");
+    sidebar.current?.classList.add("translate-x-[100%]");
   };
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
   };
   return (
-    <>
+    <div onBlur={handleClose}>
       <button type="button" onClick={handleOpen} className="hv-eff flex-center">
         <div>
           <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-6 h-6">
@@ -101,6 +100,6 @@ export default function SignOptions() {
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 }

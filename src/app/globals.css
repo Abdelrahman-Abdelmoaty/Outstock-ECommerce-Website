@@ -18,7 +18,7 @@ li a {
   @apply hover:cursor-pointer;
 }
 .res-w {
-  @apply w-[100%]  xl:w-[80%] 2xl:w-[65%] px-5 xl:mx-auto;
+  @apply w-[100%]  xl:w-[80%] 2xl:w-[65%] xl:mx-auto;
 }
 
 .flex-center {
@@ -124,4 +124,36 @@ input::-webkit-inner-spin-button {
 
 .loading-part:nth-of-type(5) {
   animation-delay: 0.6s;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #e1e1e1;
+  height: 100%;
+  width: 1px;
+  margin: auto;
+  @apply hidden md:block;
+}
+.line::after {
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  content: "or";
+  width: 51px;
+  height: 51px;
+  font-size: 14px;
+  line-height: 51px;
+  font-style: italic;
+  border-radius: 50%;
+  color: #666;
+  background-color: #f5f5f5;
+  text-align: center;
+  z-index: 100;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }

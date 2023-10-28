@@ -24,7 +24,10 @@ import Hero from "@src/components/Hero/Hero";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <div className="overflow-x-hidden">
+        <Hero />
+      </div>
+
       <div>
         <main className="res-w p-8 bg-white shadow xl:mt-[-100px] xl:mb-[-100px] relative z-[9999]">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">

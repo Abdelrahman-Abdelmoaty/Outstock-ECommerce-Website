@@ -1,28 +1,23 @@
 import Navbar from "@src/components/Navbar/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
-import favicon from "@public/assets/images/favi.png";
 import Footer from "@src/components/Footer/Footer";
-import ReduxProvider from "@src/redux/ReduxProvider";
+import ReduxProvider from "@src/redux/components/ReduxProvider";
+import Loader from "@src/redux/components/Loader";
+import { cookies } from "next/headers";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Outstock E-Commerce Website",
   description: "Developed by Abdelrhman Abdelmoaty",
-  icons: {
-    icon: favicon.src,
-  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="">
+      <body>
         <ReduxProvider>
-          {/* <div className="w-[100%]  xl:w-[80%] 2xl:w-[65%] mx-auto bg-white px-2 flex flex-col items-center"> */}
-          <Navbar />
-          {children}
-          <Footer />
-          {/* </div> */}
+          <Loader>{children}</Loader>
         </ReduxProvider>
       </body>
     </html>

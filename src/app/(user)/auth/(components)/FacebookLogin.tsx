@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default function FacebookLogin() {
   const handleLogin = async () => {
-    const response = await axios.get("http://127.0.0.1:8000/api/google/login/url");
+    const response = await axios.get("http://127.0.0.1:8000/api/auth/facebook");
     open(response.data, "_self");
   };
   return (

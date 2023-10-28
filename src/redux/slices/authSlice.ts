@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { User, loginCredintials, signupFormData } from "@src/lib/types";
-import { deleteAccessToken, getAccessToken, saveAccessToken } from "@src/lib/utils";
+import { deleteAccessToken, deleteTokenCookie, getAccessToken, resetAdminCookie, resetAuthCookie, saveAccessToken, setAdminCookie, setAuthCookie, setTokenCookie } from "@src/lib/utils";
 import axios from "axios";
 import { redirect } from "next/navigation";
-import { setUser } from "./userSlice";
 
 interface authState {
   isAuthenticated: boolean;
@@ -24,11 +23,7 @@ const initialState: authState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    loginApi: (_state, action: PayloadAction<{ token: string }>) => {
-      return { isAuthenticated: true, user: null, token: action.payload.token, loading: "fulfilled", error: null };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -39,10 +34,11 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.error = null;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state) => {
         state.loading = "rejected";
-        state.error = action.error.message || "An error occurred during login.";
+        state.error = "Wrong email or password.";
       })
       .addCase(logout.pending, (state) => {
         state.loading = "pending";
@@ -69,16 +65,16 @@ const authSlice = createSlice({
         state.loading = "rejected";
         state.error = action.error.message || "An error occurred during signup.";
       })
-      .addCase(getUser.pending, (state) => {
+      .addCase(setUser.pending, (state) => {
         state.loading = "pending";
       })
-      .addCase(getUser.fulfilled, (state, action: PayloadAction<{ user: User; token: string }>) => {
+      .addCase(setUser.fulfilled, (state, action: PayloadAction<{ user: User; token: string }>) => {
         state.loading = "fulfilled";
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(getUser.rejected, (state, action) => {
+      .addCase(setUser.rejected, (state, action) => {
         state.loading = "rejected";
         state.error = action.error.message || "An error occurred during get user.";
       });
@@ -86,19 +82,17 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { loginApi } = authSlice.actions;
 
 export const login = createAsyncThunk("auth/login", async (credentials: loginCredintials) => {
   try {
-    const loginResponse = await axios.post("http://127.0.0.1:8000/api/auth/login", credentials);
-    const token = loginResponse.data.token as string;
+    const response = await axios.post("http://127.0.0.1:8000/api/auth/login", credentials);
+    const token = response.data.token as string;
+    const user = response.data.user as User;
     saveAccessToken(token);
-    const userResponse = await axios.get("http://127.0.0.1:8000/api/auth/user-data", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return { user: userResponse.data.data as User, token: token };
+    setTokenCookie(token);
+    setAuthCookie();
+    if (user.isAdmin) setAdminCookie();
+    return { user: user, token: token };
   } catch (error) {
     throw error;
   }
@@ -106,15 +100,12 @@ export const login = createAsyncThunk("auth/login", async (credentials: loginCre
 
 export const signup = createAsyncThunk("auth/signup", async (formData: signupFormData) => {
   try {
-    const signupResponse = await axios.post("http://127.0.0.1:8000/api/auth/register", formData);
-    const token = signupResponse.data.token as string;
+    const response = await axios.post("http://127.0.0.1:8000/api/auth/register", formData);
+    const token = response.data.token as string;
     saveAccessToken(token);
-    const userResponse = await axios.get("http://127.0.0.1:8000/api/auth/user-data", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return { user: userResponse.data.user as User, token: token };
+    setTokenCookie(token);
+    setAuthCookie();
+    return { user: response.data.user as User, token: token };
   } catch (error) {
     throw error;
   }
@@ -122,21 +113,33 @@ export const signup = createAsyncThunk("auth/signup", async (formData: signupFor
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
-    await axios.post("http://127.0.0.1:8000/api/auth/logout");
+    await axios.get("http://127.0.0.1:8000/api/auth/logout", {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
+    deleteAccessToken();
+    resetAuthCookie();
+    resetAdminCookie();
+    deleteTokenCookie();
   } catch (error) {
     throw error;
   }
 });
 
-export const getUser = createAsyncThunk("auth/getUser", async () => {
+export const setUser = createAsyncThunk("auth/setuser", async (token: string) => {
   try {
-    const token = getAccessToken();
     const response = await axios.get("http://127.0.0.1:8000/api/auth/user-data", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return { user: response.data.data as User, token: token };
+    const user = response.data.data as User;
+
+    setAuthCookie();
+    if (user.isAdmin) setAdminCookie();
+
+    return { user: user, token: token };
   } catch (error) {
     throw error;
   }

@@ -42,6 +42,7 @@ export type User = {
   phoneNumber: string;
   email: string;
   password: string;
+  isAdmin?: boolean;
 };
 
 export type signupFormData = {
