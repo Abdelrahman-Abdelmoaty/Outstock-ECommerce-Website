@@ -5,7 +5,7 @@ import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import { useEffect, useRef, useState } from "react";
 import slider_1 from "@public/assets/images/slider-1.jpg";
 import slider_2 from "@public/assets/images/slider-2.jpg";
-import Link from "next/link";
+
 export default function Hero() {
   const slides = [
     {
@@ -40,7 +40,7 @@ export default function Hero() {
     });
   };
   return (
-    <div key={currentIndex} className="w-screen over py-[10rem] xl:py-[19rem] text-white group relative bg-cover bg-center" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
+    <div key={currentIndex} className="w-screen over py-[10rem] xl:py-[19rem] text-white group relative bg-cover bg-center overflow-x-hidden" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
       <div className="progress"></div>
       <ArrowBackIosOutlinedIcon className="arrow left-10 invisible xl:visible" onClick={handleNextBtn} />
       <div className="w-[90%] xl:w-[65%] mx-auto">
@@ -51,9 +51,9 @@ export default function Hero() {
           <p className="text-sm mt-4 mb-12 animate-text" style={{ animationDuration: "1.2s" }}>
             From luxury watches and chronographs to wall clocks <br /> and weather stations, Henning Koppel's.
           </p>
-          <Link href="/shop" className="bg-white text-black py-3 px-10 font-medium text-sm animate-btn animate-btn-scale">
+          <a href="/shop" className="bg-white text-black py-3 px-10 font-medium text-sm animate-btn animate-btn-scale">
             <span>DISCOVER NOW</span>
-          </Link>
+          </a>
         </div>
       </div>
       <ArrowForwardIosOutlinedIcon className="arrow right-10 invisible xl:visible" onClick={handlePrevBtn} />

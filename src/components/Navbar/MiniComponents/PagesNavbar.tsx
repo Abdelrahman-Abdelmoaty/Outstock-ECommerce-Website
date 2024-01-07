@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 
@@ -24,30 +23,30 @@ export default function PagesNavbar() {
   };
   return (
     <>
-      <Link href="/pages" onMouseEnter={handleButtonEnter} onMouseLeave={handleButtonLeave}>
+      <a href="/pages" onMouseEnter={handleButtonEnter} onMouseLeave={handleButtonLeave}>
         <div className="flex-center">
           Pages
           <KeyboardArrowDownOutlinedIcon className="w-12 h-12 xl:w-6 xl:h-6" />
         </div>
-      </Link>
+      </a>
       <ul ref={pagesNavbar} className="pages-navbar p-4 xl:absolute top-14 bg-white shadow opacity-0 invisible translate-y-12 duration-500 ease-in-out text-start" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <li>
-          <Link href="">Blog</Link>
+          <a href="/Blog">Blog</a>
         </li>
         <li>
-          <Link href="">Contact Us</Link>
+          <a href="/ContactUs">Contact Us</a>
         </li>
         <li>
-          <Link href="">About Us</Link>
+          <a href="/AboutUs">About Us</a>
         </li>
         <li>
-          <Link href="">Store Locator</Link>
+          <a href="/StoreLocator">Store Locator</a>
         </li>
         <li>
-          <Link href="">Page 404</Link>
+          <a href="/Page404">Page 404</a>
         </li>
         <li>
-          <Link href="">FAQs Page</Link>
+          <a href="/FAQsPage">FAQs Page</a>
         </li>
       </ul>
     </>

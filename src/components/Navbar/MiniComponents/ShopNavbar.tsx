@@ -1,4 +1,3 @@
-import Link from "next/link";
 import menuImg from "@public/assets/images/menu-1.jpg";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import "@src/components/Navbar/Navbar.css";
@@ -26,12 +25,12 @@ export default function ShopNavbar() {
   };
   return (
     <>
-      <Link href="/shop" onMouseEnter={handleButtonEnter} onMouseLeave={handleButtonLeave}>
+      <a href="/shop" onMouseEnter={handleButtonEnter} onMouseLeave={handleButtonLeave}>
         <div className="flex-center">
           Shop
           <KeyboardArrowDownOutlinedIcon className="w-12 h-12 xl:w-6 xl:h-6" />
         </div>
-      </Link>
+      </a>
       <div
         ref={shopNavbar}
         className="flex absolute shadow p-10 top-14 opacity-0 invisible translate-y-12 left-[-70%] bg-white items-start text-[var(--font-color)] duration-500 ease-in-out"
@@ -55,68 +54,68 @@ export default function ShopNavbar() {
           <tbody>
             <tr>
               <td>
-                <Link href=""> Crape Myrtle</Link>
+                <a href="/"> Crape Myrtle</a>
               </td>
               <td>
-                <Link href=""> Adirondack Chair</Link>
+                <a href="/"> Adirondack Chair</a>
               </td>
               <td>
-                <Link href=""> Multi Balans</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <Link href=""> Flowering Dogwood</Link>
-              </td>
-              <td>
-                <Link href=""> Teak Wood</Link>
-              </td>
-              <td>
-                <Link href=""> Thatsit balans</Link>
+                <a href="/"> Multi Balans</a>
               </td>
             </tr>
             <tr>
               <td>
-                <Link href=""> Kousa Dogwood</Link>
+                <a href="/"> Flowering Dogwood</a>
               </td>
               <td>
-                <Link href=""> Pine Wood</Link>
+                <a href="/"> Teak Wood</a>
               </td>
               <td>
-                <Link href=""> Wing balan</Link>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <Link href=""> Saucer Magnolia</Link>
-              </td>
-              <td>
-                <Link href=""> Cedar Wood</Link>
-              </td>
-              <td>
-                <Link href=""> Balans varier</Link> peel
+                <a href="/"> Thatsit balans</a>
               </td>
             </tr>
             <tr>
               <td>
-                <Link href=""> Fringe Tree</Link>
+                <a href="/"> Kousa Dogwood</a>
               </td>
               <td>
-                <Link href=""> PolyWood</Link>
+                <a href="/"> Pine Wood</a>
               </td>
               <td>
-                <Link href=""> Varier gravity</Link>
+                <a href="/"> Wing balan</a>
               </td>
             </tr>
             <tr>
               <td>
-                <Link href=""> Carolina Silverbell</Link>
+                <a href="/"> Saucer Magnolia</a>
               </td>
               <td>
-                <Link href=""> Beach Adirondack</Link>
+                <a href="/"> Cedar Wood</a>
               </td>
               <td>
-                <Link href=""> Varier club</Link>
+                <a href="/"> Balans varier</a> peel
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/"> Fringe Tree</a>
+              </td>
+              <td>
+                <a href="/"> PolyWood</a>
+              </td>
+              <td>
+                <a href="/"> Varier gravity</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/"> Carolina Silverbell</a>
+              </td>
+              <td>
+                <a href="/"> Beach Adirondack</a>
+              </td>
+              <td>
+                <a href="/"> Varier club</a>
               </td>
             </tr>
           </tbody>

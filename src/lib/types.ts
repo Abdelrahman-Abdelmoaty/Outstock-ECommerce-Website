@@ -28,11 +28,7 @@ export type Product = {
   discount?: number;
   date?: string;
   color?: string;
-};
-
-export type loginCredintials = {
-  email: string;
-  password: string;
+  count?: number;
 };
 
 export type User = {
@@ -43,13 +39,23 @@ export type User = {
   email: string;
   password: string;
   isAdmin?: boolean;
+  cart: Cart;
 };
 
-export type signupFormData = {
+export type SignUpFormData = {
   name: string;
   username: string;
   phoneNumber: string;
   email: string;
   password: string;
   password_confirmation: string;
+};
+
+export type LocalStorage = {
+  products: { id: number; count: number }[];
+};
+export type Cart = {
+  id: number;
+  userId: number;
+  products: { id: number; count: number }[];
 };

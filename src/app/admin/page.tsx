@@ -1,23 +1,51 @@
 import PrivateRoute from "@src/redux/components/PrivateRouter";
-import Link from "next/link";
 
 export default function Admin() {
+  const link = "text-xl font-medium cursor-pointer hover:text-[var(--secondary-color)] ease-500";
   return (
-    <div className="my-[300px] font-bold text-3xl flex-center">
-      <div className="flex flex-col">
-        <p>Admin</p>
-        <Link href="/admin/products" className="hover:text-[var(--secondary-color)] ease-500">
-          Products
-        </Link>
-        <Link href="/admin/users" className="hover:text-[var(--secondary-color)] ease-500">
-          Users
-        </Link>
-        <Link href="/admin/categories" className="hover:text-[var(--secondary-color)] ease-500">
-          Categories
-        </Link>
-        <Link href="/admin/discounts" className="hover:text-[var(--secondary-color)] ease-500">
-          Discounts
-        </Link>
+    <div className="py-12 gap-x-10">
+      <div className="font-semibold text-3xl">
+        <div className="my-4">
+          <p className="text-2x mb-1 font-semibold">Products</p>
+          <div className="ml-10 flex flex-col">
+            <a href="/admin/products/addProduct" className={link}>
+              &gt; Add Product
+            </a>
+            <a href="/admin/products" className={link}>
+              &gt; Manage Products
+            </a>
+          </div>
+        </div>
+        <div className="my-4">
+          <p className="text-2x mb-1 font-semibold">Users</p>
+          <div className="ml-10 flex flex-col">
+            <a href="/admin/products" className={link}>
+              &gt; Manage Products
+            </a>
+          </div>
+        </div>
+        <div className="my-4">
+          <p className="text-2x mb-1 font-semibold">Categories</p>
+          <div className="ml-10 flex flex-col">
+            <a href="/admin/products/addCategory" className={link}>
+              &gt; Add Category
+            </a>
+            <a href="/admin/products/addProduct" className={link}>
+              &gt; Manage Categories
+            </a>
+          </div>
+        </div>
+        <div className="my-4">
+          <p className="text-2x mb-1 font-semibold">Discounts</p>
+          <div className="ml-10 flex flex-col">
+            <a href="/admin/addDiscount" className={link}>
+              &gt; Add Discount
+            </a>
+            <a href="/admin/discounts" className={link}>
+              &gt; Manage Discounts
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

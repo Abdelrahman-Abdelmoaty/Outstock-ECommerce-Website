@@ -6,13 +6,13 @@ import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
-import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@src/redux/store";
 import { logout } from "@src/redux/slices/authSlice";
 export default function SignOptions() {
   const isLoggedIn = useAppSelector((state) => state.auth.isAuthenticated);
   const sidebar = useRef<HTMLDivElement>(null);
+  const options = useRef<HTMLDivElement>(null);
   const handleOpen = () => {
     sidebar.current?.classList.remove("translate-x-[100%]");
   };
@@ -22,9 +22,10 @@ export default function SignOptions() {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
+    handleClose();
   };
   return (
-    <div onBlur={handleClose}>
+    <div>
       <button type="button" onClick={handleOpen} className="hv-eff flex-center">
         <div>
           <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-6 h-6">
@@ -45,13 +46,13 @@ export default function SignOptions() {
         ) : (
           <div className="text-black flex items-center gap-x-2 mb-4">
             <PermIdentityOutlinedIcon className="text-3xl font-light mb-1" />
-            <Link href="/auth" className="font-semibold" onClick={handleClose}>
+            <a href="/auth" className="font-semibold" onClick={handleClose}>
               Sign In
-            </Link>
+            </a>
             <span className="font-medium"> or </span>
-            <Link href="auth/signup" className="font-semibold" onClick={handleClose}>
+            <a href="/auth/signup" className="font-semibold" onClick={handleClose}>
               Create an Account
-            </Link>
+            </a>
           </div>
         )}
         <div className="flex text-black gap-x-5 mb-12">
@@ -78,22 +79,22 @@ export default function SignOptions() {
           <span className="text-black font-semibold text-xl">Connect on Social :</span>
           <ul className="flex items-center text-[var(--secondary-color)]">
             <li className="p-2">
-              <a href="">
+              <a href="/">
                 <FacebookOutlinedIcon className="w-8 h-8" />
               </a>
             </li>
             <li className="p-2">
-              <a href="">
+              <a href="/">
                 <TwitterIcon className="w-8 h-8" />
               </a>
             </li>
             <li className="p-2">
-              <a href="">
+              <a href="/">
                 <InstagramIcon className="w-8 h-8" />
               </a>
             </li>
             <li className="p-2">
-              <a href="">
+              <a href="/">
                 <SportsBasketballIcon className="w-8 h-8" />
               </a>
             </li>

@@ -2,7 +2,6 @@ nav li {
   @apply px-1 xl:px-4 text-[var(--font-color)];
 }
 
-nav li.active,
 nav button.active {
   @apply text-[var(--secondary-color)];
 }

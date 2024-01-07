@@ -1,14 +1,15 @@
 "use client";
-import { getAccessToken } from "@src/lib/utils";
-import { useAppDispatch } from "../store";
-import { setUser } from "../slices/authSlice";
+import { useAppDispatch, useAppSelector } from "../store";
+import { getProductsFromLocalStorage, getUserCart, mergeCarts, setUser } from "../slices/authSlice";
+import { getProductsFromLocalStorageUtil, getUserToken } from "@src/lib/utils";
+import { getProducts } from "../slices/productsSlice";
 import { useEffect } from "react";
-
 export default function Loader({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const token = getAccessToken();
-    token && dispatch(setUser(token));
+    dispatch(getProductsFromLocalStorage());
+    getUserToken() && dispatch(setUser());
+    getUserToken() && dispatch(mergeCarts());
   }, []);
-  return <> {children}</>;
+  return <>{children}</>;
 }

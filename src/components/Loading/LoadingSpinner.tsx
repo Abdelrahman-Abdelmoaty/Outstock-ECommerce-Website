@@ -1,3 +1,4 @@
+import "./Loading.css";
 export default function LoadingSpinner({ sz }: { sz: String }) {
   return (
     <svg aria-hidden="true" className={`inline w-4 h-4 text-black relative z-50 animate-spin fill-black w-${sz} h-${sz}`} viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

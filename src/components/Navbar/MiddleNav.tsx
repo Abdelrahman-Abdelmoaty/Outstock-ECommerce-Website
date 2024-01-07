@@ -1,12 +1,14 @@
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import Link from "next/link";
+
 import { useRef } from "react";
 import ShopNavbar from "./MiniComponents/ShopNavbar";
 import PagesNavbar from "./MiniComponents/PagesNavbar";
 import CloseIcon from "@mui/icons-material/Close";
 import MobileLeftNav from "./MobileLeftNav";
+import { usePathname } from "next/navigation";
 
 export default function MiddleNav() {
+  const pathName = usePathname();
   const nav = useRef<HTMLDivElement>(null);
   const mobileLeftNav = useRef<HTMLDivElement>(null);
   const handleLeftMenu = () => {
@@ -24,18 +26,23 @@ export default function MiddleNav() {
         <button type="button" onClick={handleClose} className="xl:hidden">
           <CloseIcon className="text-black text-4xl mb-12" />
         </button>
-        <ul className="flex text-3xl xl:text-base items-start xl:items-center flex-col xl:flex-row gap-y-5 xl:gap-y-0">
-          <li className="active">
-            <Link href="/">Home</Link>
+        <ul className="flex text-3xl xl:text-base items-start xl:items-center flex-col xl:flex-row gap-y-5 xl:gap-y-0 ">
+          <li>
+            <a href="/" className={`${pathName === "/" && "text-[var(--secondary-color)]"}`}>
+              Home
+            </a>
           </li>
           <li>
-            <ShopNavbar />
+            <a href="/shop" className={`${pathName === "/shop" && "text-[var(--secondary-color)]"}`}>
+              Shop
+            </a>
+            {/* <ShopNavbar /> */}
           </li>
           <li>
             <PagesNavbar />
           </li>
           <li>
-            <Link href="/brands">Brands</Link>
+            <a href="/Brands">Brands</a>
           </li>
         </ul>
       </div>

@@ -1,30 +1,36 @@
 "use client";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@src/components/Form/Input";
-import LoadingComponent from "@src/components/LoadingComponent";
-import FacebookLogin from "@src/app/auth/(components)/FacebookLogin";
-import GoogleLogin from "@src/app/auth/(components)/GoogleLogin";
+import LoadingComponent from "@src/components/Loading/LoadingComponent";
+import FacebookLogin from "@src/app/(user)/auth/components/FacebookLogin";
+import GoogleLogin from "@src/app/(user)/auth/components/GoogleLogin";
 import { signupSchema } from "@src/lib/schemas";
 import { signup } from "@src/redux/slices/authSlice";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@src/redux/store";
-import { User, signupFormData } from "@src/lib/types";
+import store, { useAppDispatch } from "@src/redux/store";
+import { User, SignUpFormData } from "@src/lib/types";
 
 export default function SignUp() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [error, setError] = useState<string>("");
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const methods = useForm({ resolver: yupResolver(signupSchema) });
-  const onSubmit = (formData: signupFormData) => {
+  const onSubmit = async (formData: SignUpFormData) => {
     setIsLoading(true);
-    dispatch(signup(formData));
+    try {
+      await dispatch(signup(formData));
+      router.push("/");
+    } catch {
+      setError(store.getState().auth.error as string);
+    }
     setIsLoading(false);
-    router.replace("/");
   };
   return (
-    <div className="bg-white res-w">
+    <div className="bg-white">
       {isLoading ? (
         <div className="flex-center h-[70vh]">
           <LoadingComponent />
@@ -55,6 +61,7 @@ export default function SignUp() {
                   <Input label="confirm password" name="password_confirmation" type="password" />
                   {methods.formState.errors.password_confirmation && <p className="text-red-500">{methods.formState.errors.password_confirmation.message}</p>}
                 </div>
+                {error && <p className="text-red-500">{error}</p>}
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <a href="/auth/" className="text-center inline-block border-2 border-black font-semibold text-sm uppercase px-20 py-4 animate-btn hover:border-[var(--secondary-color)] mt-5">

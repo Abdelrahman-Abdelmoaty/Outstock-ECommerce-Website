@@ -1,7 +1,8 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+"use client";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { FormEvent, FormEventHandler, useEffect, useState } from "react";
 
 export default function Searchbox() {
   const [show, setShow] = useState<boolean>(false);
@@ -9,6 +10,15 @@ export default function Searchbox() {
     setShow((prev) => !prev);
     e.currentTarget.classList.toggle("active");
   };
+  const router = useRouter();
+  const [input, setInput] = useState<string>("");
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (input === "") return;
+    const params = new URLSearchParams(`query=${input}`);
+    router.push(`shop?${params}`);
+  };
+  useEffect(() => {}, []);
   return (
     <>
       <button type="button" className="flex-center hv-eff" onClick={handleShow}>
@@ -20,11 +30,15 @@ export default function Searchbox() {
         <span className="hidden xl:block">Search</span>
       </button>
       <div
-        className={`absolute flex-center top-full bg-white p-3 rounded shadow text-sm text-black right-96 duration-500 ease-in-out
+        className={`absolute flex-center top-full bg-white p-3 rounded shadow text-sm text-black right-0 xl:right-96 duration-500 ease-in-out
       ${show ? "translate-y-0 visible opacity-100" : "translate-y-[-3rem] invisible opacity-0"}`}
       >
-        <input type="text" placeholder="Search entire store here..." className="w-80 outline-none" />
-        <SearchIcon />
+        <form onSubmit={handleSearch}>
+          <input name="query" type="text" placeholder="Search entire store here..." className="w-80 outline-none" value={input} onChange={(e) => setInput(e.target.value)} />
+          <button type="submit">
+            <SearchIcon />
+          </button>
+        </form>
       </div>
     </>
   );

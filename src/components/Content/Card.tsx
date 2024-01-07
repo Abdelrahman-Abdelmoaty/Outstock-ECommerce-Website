@@ -4,11 +4,11 @@ import StarHalfRoundedIcon from "@mui/icons-material/StarHalfRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import AddIcon from "@mui/icons-material/Add";
 import { Rubik } from "next/font/google";
-import Link from "next/link";
+
 import { TempProduct } from "@src/lib/types";
 import CardOptions from "./CardOptions";
 import { Suspense } from "react";
-import LoadingComponent from "../LoadingComponent";
+import LoadingComponent from "../Loading/LoadingComponent";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -32,7 +32,7 @@ export default function Card({ src, secondSrc, text, rating, price, discount, ne
 
   return (
     <Suspense fallback={<LoadingComponent />}>
-      <Link href="/" className="row-span-1 col-span-1">
+      <a href="/" className="row-span-1 col-span-1">
         <div className="relative flex flex-col items-start text-[#23232c] group cursor-pointer mb-2">
           {newProduct && <span className="new-label">New</span>}
           {discount && <span className="discount-label">{discount}%</span>}
@@ -57,7 +57,7 @@ export default function Card({ src, secondSrc, text, rating, price, discount, ne
             </div>
           </div>
         </div>
-      </Link>
+      </a>
     </Suspense>
   );
 }

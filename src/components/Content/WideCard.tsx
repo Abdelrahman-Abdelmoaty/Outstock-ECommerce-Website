@@ -9,7 +9,9 @@ export default function SmallWideCard({ category, text, src }: { category: strin
         <span className="text-[var(--secondary-color)]">{category}</span>
         <p className="font-semibold text-xl leading-5">{text}</p>
         <button className="mt-16 bg-white border-2 border-black uppercase px-6 py-3 font-semibold text-xs animate-btn">
-          <span>Discover Now</span>
+          <span>
+            <a href="/shop">Discover Now</a>
+          </span>
         </button>
       </div>
     </div>

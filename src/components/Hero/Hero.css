@@ -1,5 +1,5 @@
 .arrow {
-  @apply fill-black absolute top-[50%] translate-y-[-50%] text-sm rounded-full box-content p-3 bg-white transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer group-hover:opacity-100 opacity-0 hover:bg-[var(--secondary-color)] z-50 hover:fill-white;
+  @apply text-black absolute top-[50%] translate-y-[-50%] text-sm rounded-full box-content p-3 bg-white transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer group-hover:opacity-100 opacity-0 hover:bg-[var(--secondary-color)] z-50 hover:fill-white;
 }
 
 .progress {

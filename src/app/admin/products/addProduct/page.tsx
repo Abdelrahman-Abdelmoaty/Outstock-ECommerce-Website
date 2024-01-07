@@ -1,31 +1,34 @@
 "use client";
 import { ChangeEvent, useRef, useState, MouseEvent } from "react";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, set, useForm, useFormContext } from "react-hook-form";
 import Input from "@src/components/Form/Input";
 import axios from "axios";
 import { addProductSchema } from "@src/lib/schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAccessToken } from "@src/lib/utils";
+import { getUserToken } from "@src/lib/utils";
+import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
 export default function AddProduct() {
+  const [isPending, setIsPending] = useState<boolean>(false);
+  const [added, setAdded] = useState<boolean>(false);
   const methods = useForm({ resolver: yupResolver(addProductSchema) });
   // const imagesInput = useRef<HTMLInputElement>(null);
   const [imagesState, setImages] = useState<string[]>([]);
-  const imageInput = document.getElementById("filesupload") as HTMLInputElement;
 
   const handleImagesInputBtn = () => {
     // imagesInput.current?.click();
-    imageInput?.click();
+    document.getElementById("filesupload")?.click();
   };
   const handleImagesInput = (e: ChangeEvent<HTMLInputElement>) => {
     const imagesUrls = Array.from(e.target.files || []).map((img) => URL.createObjectURL(img));
     setImages(imagesUrls);
   };
   const onSubmit = async (data: any) => {
+    setIsPending(true);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", data.price);
     formData.append("quantity", data.quantity);
-    const imgs = imageInput.files;
+    const imgs = (document.getElementById("filesupload") as HTMLInputElement)?.files;
     if (imgs) {
       for (let i = 0; i < imgs.length; i++) {
         formData.append("images[]", imgs[i]);
@@ -33,24 +36,26 @@ export default function AddProduct() {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/products", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-      });
+      // const response = await axios.post(`${HOST}api/products`, formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     Authorization: `Bearer ${getUserToken()}`,
+      //   },
+      // });
     } catch (error) {
       throw error;
     }
+    setIsPending(false);
+    setAdded(true);
     setImages([]);
     methods.reset();
   };
 
   return (
-    <div className="res-w bg-white">
+    <div className="bg-white">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="w-[60%] mx-auto my-12">
+          <div className="xl:w-[60%] mx-auto my-12">
             <input
               {...methods.register("images", {
                 onChange: handleImagesInput,
@@ -86,9 +91,10 @@ export default function AddProduct() {
             <Input label="category id" name="categoryId" type="number" />
             {methods.formState.errors.categoryId && <p className="text-red-500">{methods.formState.errors.categoryId.message}</p>}
             <Input label="color id" name="colorId" type="number" />
-            {methods.formState.errors.colorId && <p className="text-red-500">{methods.formState.errors.colorId.message}</p>}{" "}
+            {methods.formState.errors.colorId && <p className="text-red-500">{methods.formState.errors.colorId.message}</p>}
+            {added && <p className="text-green-500">Product Added Successfully!</p>}
             <button type="submit" className="animate-btn w-full p-4 border-2 border-black bg-white uppercase font-semibold hover:border-[var(--secondary-color)]">
-              <span>Add</span>
+              <span>{isPending ? <LoadingSpinner sz="5" /> : "Add"}</span>
             </button>
           </div>
         </form>

@@ -1,35 +1,69 @@
 "use client";
-import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
-import StarHalfRoundedIcon from "@mui/icons-material/StarHalfRounded";
-import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import axios from "axios";
 import { Product } from "@src/lib/types";
-import { Suspense, useEffect, useState } from "react";
-import LoadingComponent from "@src/components/LoadingComponent";
-import { ImgProps } from "next/dist/shared/lib/get-img-props";
+import { useEffect, useState } from "react";
+import LoadingComponent from "@src/components/Loading/LoadingComponent";
+import Rating from "@src/components/Cards/Rating";
+import { addProductToCartLocalStorageUtil, removeProductFromLocalStorageUtil } from "@src/lib/utils";
+import { useAppDispatch, useAppSelector } from "@src/redux/store";
+import { addProductToLocalStorage, addToCart, removeFromCart } from "@src/redux/slices/authSlice";
+import { HOST } from "@src/lib/validations";
+import Wrapper from "@src/components/Wrapper/Wrapper";
+
+async function getProduct(id: string) {
+  const response = await axios.get(`${HOST}api/products/${id}`);
+  const product = (await response.data.data) as Product;
+  return product as Product;
+}
 
 export default function Product({ params }: { params: { productId: string } }) {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [count, setCount] = useState<number>(1);
-  const [mainImg, setMainImg] = useState<string>("");
-  const [product, setProduct] = useState<Product>({ id: 0, name: "", price: 0, quantity: 0, rating: 0, images: [] });
+  const [isPending, setPending] = useState(true);
+  const [product, setProduct] = useState<Product>({
+    id: 0,
+    name: "string",
+    price: 0,
+    quantity: 0,
+    rating: 0,
+    images: [],
+  });
+  const [mainImg, setMainImg] = useState<string>(product.images[0]);
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const savedProduct = useAppSelector((state) => state.auth.user?.cart.products.find((pr) => pr.id === +params.productId));
+  const [count, setCount] = useState<number>(savedProduct?.count || 0);
+
   useEffect(() => {
-    (async () => {
-      const response = await axios.get(`http://127.0.0.1:8000/api/products/${params.productId}`);
-      const responseProduct = (await response.data.data) as Product;
-      setMainImg(`http://localhost:8000${responseProduct.images[0]}`);
-      setProduct(responseProduct);
-      setLoading(false);
-    })();
+    getProduct(params.productId).then((pr) => {
+      setProduct(pr);
+      setMainImg(pr.images[0]);
+      setPending(false);
+    });
   }, []);
+
   const increaseCount = () => {
     setCount((prev) => prev + 1);
   };
   const decreaseCount = () => {
     setCount((prev) => (prev === 0 ? 0 : prev - 1));
   };
+  const handleAddToCart = () => {
+    if (count === 0) {
+      if (isAuthenticated) {
+        dispatch(removeFromCart({ id: +params.productId }));
+      } else {
+        removeProductFromLocalStorageUtil(+params.productId);
+      }
+    } else {
+      if (isAuthenticated) {
+        dispatch(addToCart({ id: +params.productId, count }));
+      } else {
+        addProductToCartLocalStorageUtil(+params.productId, count);
+        dispatch(addProductToLocalStorage({ id: +params.productId, count }));
+      }
+    }
+  };
   const changeMainImg = (e: React.MouseEvent<HTMLImageElement>) => {
-    setMainImg(e.currentTarget.src);
+    setMainImg(e.currentTarget.src.slice(e.currentTarget.src.indexOf("/products")));
   };
   const handleBorder = (e: React.MouseEvent<HTMLDivElement>) => {
     for (let i = 0; i < product.images.length; i++) {
@@ -37,48 +71,36 @@ export default function Product({ params }: { params: { productId: string } }) {
     }
     e.currentTarget.classList.add("border-2");
   };
-  const showRating = (rating: number) => {
-    let stars: JSX.Element[] = [];
-    for (let i = 0; i < 5; i++) {
-      if (i < Math.floor(rating)) {
-        stars.push(<StarRoundedIcon key={i} className="text-[var(--secondary-color)] m-[-2px] w-5 h-5" />);
-      } else if (i === Math.floor(rating) && rating % 1 >= 0.5) {
-        stars.push(<StarHalfRoundedIcon key="half" className="text-[var(--secondary-color)] m-[-2px] w-5 h-5" />);
-      } else {
-        stars.push(<StarOutlineRoundedIcon key={i} className="text-[var(--secondary-color)] m-[-2px] w-5 h-5" />);
-      }
-    }
-    return <div className="mb-1">{...stars}</div>;
-  };
+
   return (
-    <div>
-      {loading ? (
-        <div className="h-[70vh] flex-center">
-          <LoadingComponent />
-        </div>
-      ) : (
-        <div className="bg-[var(--primary-color)]">
-          <div className="res-w flex py-10">
+    <div className="bg-[var(--primary-color)]">
+      <Wrapper>
+        {isPending ? (
+          <div className=" flex-center h-[60vh]">
+            <LoadingComponent />
+          </div>
+        ) : (
+          <div className=" flex py-10">
             <div className="flex flex-col gap-y-2">
               {product.images.map((img: string, index: number) => (
                 <div key={img} className={`w-24 h-30 cursor-pointer border-[var(--secondary-color)] p-1 ${index === 0 && "border-2"}`} id={`productImg${index}`} onClick={handleBorder}>
-                  <img src={`http://localhost:8000${img}`} alt={product.name} className="img-fill" onClick={changeMainImg} />
+                  <img src={`${HOST}${img.slice(1)}`} alt={product.name} className="img-fill" onClick={changeMainImg} />
                 </div>
               ))}
             </div>
             <div className="max-w-[35rem]">
-              <img src={mainImg} alt={product.name} className="img-fill" />
+              <img src={`${HOST}${mainImg.slice(1)}`} alt={product.name} className="img-fill" />
             </div>
             <div className="flex flex-col gap-y-3">
               <div>
                 <p className="font-medium text-2xl">{product.name}</p>
               </div>
               <div className="flex items-center gap-x-4">
-                {showRating(product.rating)}
-                <a href="" className="text-sm hover:text-[var(--secondary-color)] ease-500 border-x-2 px-4">
+                <Rating rating={product.rating} />
+                <a href="/" className="text-sm hover:text-[var(--secondary-color)] ease-500 border-x-2 px-4">
                   1 Review
                 </a>
-                <a href="" className="text-sm hover:text-[var(--secondary-color)] ease-500">
+                <a href="/" className="text-sm hover:text-[var(--secondary-color)] ease-500">
                   Add Your Review
                 </a>
               </div>
@@ -113,7 +135,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                     </button>
                   </div>
                   <div>
-                    <button className="uppercase !bg-black text-white py-4 px-16 font-semibold border-2 border-black animate-btn">
+                    <button className="uppercase !bg-black text-white py-4 px-16 font-semibold border-2 border-black animate-btn" onClick={handleAddToCart}>
                       <span>add to cart</span>
                     </button>
                   </div>
@@ -123,8 +145,8 @@ export default function Product({ params }: { params: { productId: string } }) {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </Wrapper>
     </div>
   );
 }
