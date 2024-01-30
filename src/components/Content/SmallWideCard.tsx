@@ -5,7 +5,7 @@ export default function SmallWideCard({ text, src }: { text: string; src: string
   return (
     <Suspense fallback={<LoadingComponent />}>
       <a href="/shop">
-        <div className="w-[100%] px-[10%] py-[20%] group hover:cursor-pointer bg-contain bg-center relative overflow-hidden mb-4">
+        <div className="w-[100%] h-full px-[10%] py-[20%] group hover:cursor-pointer bg-contain bg-center relative overflow-hidden mb-4">
           <div className="absolute left-0 top-0 z-10 w-full h-full">
             <img src={src} alt="" className="img-fill group-hover:scale-110 duration-500 ease-in-out " />
           </div>

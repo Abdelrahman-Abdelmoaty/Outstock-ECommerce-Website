@@ -4,8 +4,11 @@ import { useState, useTransition } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "@src/redux/store";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { addProductToCartLocalStorageUtil } from "@src/lib/utils";
-import { addProductToLocalStorage, addToCart } from "@src/redux/slices/authSlice";
+import { addProductToCartLocalStorageUtil } from "@src/utils/lib";
+import {
+  addProductToLocalStorage,
+  addToCart,
+} from "@src/redux/slices/authSlice";
 
 export default function AddToCartButton({ id }: { id: number }) {
   const [isPending, startTransition] = useTransition();

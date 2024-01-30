@@ -1,0 +1,10 @@
+export const HOST_URL = "http://127.0.0.1:8000/";
+export const LOGIN_URL = `${HOST_URL}api/auth/login/`;
+export const REGISTER_URL = `${HOST_URL}api/auth/register/`;
+export const GOOGLE_LOGIN_URL = `${HOST_URL}api/auth/google/login/`;
+export const FACEBOOK_LOGIN_URL = `${HOST_URL}api/auth/facebook/login/`;
+export const LOGOUT_URL = `${HOST_URL}api/auth/logout/`;
+export const USER_DATA_URL = `${HOST_URL}api/auth/user-data/`;
+export const PRODUCTS_URL = `${HOST_URL}api/products/`;
+export const USER_CART_URL = `${HOST_URL}api/carts/my-cart/`;
+export const ADD_TO_CART_URL = `${HOST_URL}api/carts/add-to-cart/`;

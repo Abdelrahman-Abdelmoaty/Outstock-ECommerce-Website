@@ -5,6 +5,9 @@ const config: Config = {
   theme: {
     container: {
       center: true,
+      padding: {
+        default: "1rem",
+      },
     },
   },
   plugins: [],

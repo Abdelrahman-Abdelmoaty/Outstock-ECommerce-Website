@@ -42,7 +42,9 @@ export default function Hero() {
   return (
     <div key={currentIndex} className="w-screen over py-[10rem] xl:py-[19rem] text-white group relative bg-cover bg-center overflow-x-hidden" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
       <div className="progress"></div>
-      <ArrowBackIosOutlinedIcon className="arrow left-10 invisible xl:visible" onClick={handleNextBtn} />
+      <div onClick={handleNextBtn}>
+        <ArrowBackIosOutlinedIcon className="arrow left-10 invisible xl:visible" />
+      </div>
       <div className="w-[90%] xl:w-[65%] mx-auto">
         <div className="relative z-10">
           <p className="font-bold text-4xl animate-text">
@@ -56,7 +58,9 @@ export default function Hero() {
           </a>
         </div>
       </div>
-      <ArrowForwardIosOutlinedIcon className="arrow right-10 invisible xl:visible" onClick={handlePrevBtn} />
+      <div onClick={handlePrevBtn}>
+        <ArrowForwardIosOutlinedIcon className="arrow right-10 invisible xl:visible" />
+      </div>
     </div>
   );
 }

@@ -4,8 +4,12 @@ import { useEffect } from "react";
 import store, { useAppDispatch } from "../store";
 import { Provider } from "react-redux";
 import { setUser } from "../slices/authSlice";
-import { getUserToken } from "@src/lib/utils";
+import { getUserToken } from "@src/utils/lib";
 
-export default function ReduxProvider({ children }: { children: React.ReactNode }) {
+export default function ReduxProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <Provider store={store}>{children}</Provider>;
 }

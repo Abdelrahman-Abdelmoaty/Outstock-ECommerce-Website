@@ -12,13 +12,11 @@ export const metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <PrivateRoute>
-      <Wrapper>
-        <div className=" py-5 px-2">
-          <AdminNavbar />
-          {children}
-        </div>
-      </Wrapper>
-    </PrivateRoute>
+    <Wrapper>
+      <div className=" py-5 px-2">
+        <AdminNavbar />
+        {children}
+      </div>
+    </Wrapper>
   );
 }

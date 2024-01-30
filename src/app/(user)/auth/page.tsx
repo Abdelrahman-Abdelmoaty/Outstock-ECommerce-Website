@@ -3,63 +3,82 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@src/components/Form/Input";
 import FacebookLogin from "@src/app/(user)/auth/components/FacebookLogin";
 import GoogleLogin from "@src/app/(user)/auth/components/GoogleLogin";
-import { loginSchema } from "@src/lib/schemas";
-import { login, mergeCarts } from "@src/redux/slices/authSlice";
-import { useAppDispatch, useAppSelector } from "@src/redux/store";
-import { redirect, useRouter } from "next/navigation";
+import { LoginFormData, loginSchema } from "@src/utils/schemas";
 import { FormProvider, useForm } from "react-hook-form";
-import store from "@src/redux/store";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
+import { authenticate } from "@src/utils/actions";
+import { useAppDispatch } from "@src/redux/store";
+import { setAuthentication } from "@src/redux/slices/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [isPending, setIsPending] = useState<boolean>();
-  const [error, setError] = useState<string>("");
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const methods = useForm({ resolver: yupResolver(loginSchema) });
-  const onSubmit = methods.handleSubmit(async (data: { email: string; password: string }) => {
-    setIsPending(true);
+  const [error, setError] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const onSubmit = async (formData: LoginFormData) => {
     try {
-      await dispatch(login({ email: data.email, password: data.password })).unwrap();
-
-      dispatch(mergeCarts());
-      router.replace("/");
-    } catch {
-      setError(store.getState().auth.error as string);
+      const response = await authenticate(formData);
+      dispatch(setAuthentication(response));
+      router.back();
+    } catch (error: any) {
+      setError(error.message);
     }
-    setIsPending(false);
-  });
-
+  };
   return (
     <div className="bg-white">
       <div className="mb-12">
-        <p className="text-[#333] text-center text-4xl font-medium py-12">Customer Login</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 relative gap-4">
+        <p className="py-12 text-center text-4xl font-medium text-[#333]">
+          Customer Login
+        </p>
+        <div className="relative grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="md:pr-[10%]">
-            <p className="text-[#333] text-2xl font-semibold mb-1">Registered Customers</p>
-            <p className="text-[#666] text-sm">If you have an account, sign in with your email address.</p>
+            <p className="mb-1 text-2xl font-semibold text-[#333]">
+              Registered Customers
+            </p>
+            <p className="text-sm text-[#666]">
+              If you have an account, sign in with your email address.
+            </p>
             <FormProvider {...methods}>
-              <Input label="email" name="email" type="email" />
-              {methods.formState.errors.email && <p className="text-red-500">{methods.formState.errors.email.message}</p>}
-              <Input label="password" name="password" type="password" />
-              {methods.formState.errors.password && <p className="text-red-500">{methods.formState.errors.password.message}</p>}
-              {error && <p className="text-red-500">{error}</p>}
-              <a href="/" className="hv-eff text-[#666] text-sm inline-block mt-2 mb-6">
-                Forgot Your Password?
-              </a>
-              <button type="submit" className="block border-2 border-black font-semibold text-xs uppercase px-16 py-4 animate-btn hover:border-[var(--secondary-color)]" onClick={onSubmit}>
-                {isPending ? <LoadingSpinner sz="4" /> : <span>Sign in</span>}
-              </button>
+              <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <Input label="email" name="email" type="email" />
+                <Input label="password" name="password" type="password" />
+                {error && <p className="text-red-500">{error}</p>}
+                <a
+                  href="/"
+                  className="hv-eff mb-6 mt-2 inline-block text-sm text-[#666]"
+                >
+                  Forgot Your Password?
+                </a>
+                <button
+                  type="submit"
+                  className="animate-btn block border-2 border-black px-16 py-4 text-xs font-semibold uppercase hover:border-[var(--secondary-color)]"
+                >
+                  {methods.formState.isSubmitting ? (
+                    <LoadingSpinner sz="4" />
+                  ) : (
+                    <span>Sign in</span>
+                  )}
+                </button>
+              </form>
             </FormProvider>
             <GoogleLogin />
             <FacebookLogin />
           </div>
           <span className="line"></span>
           <div className="md:pl-[10%]">
-            <p className="text-[#333] text-2xl font-semibold mb-1">New Customers</p>
-            <p className="text-[#666] text-sm">Creating an account has many benefits: check out faster, keep more than one address, track orders and more.</p>
-            <a href="/auth/signup" className="inline-block border-2 border-black font-semibold text-sm uppercase px-20 py-3 animate-btn hover:border-[var(--secondary-color)] mt-5">
+            <p className="mb-1 text-2xl font-semibold text-[#333]">
+              New Customers
+            </p>
+            <p className="text-sm text-[#666]">
+              Creating an account has many benefits: check out faster, keep more
+              than one address, track orders and more.
+            </p>
+            <a
+              href="/auth/signup"
+              className="animate-btn mt-5 inline-block border-2 border-black px-20 py-3 text-sm font-semibold uppercase hover:border-[var(--secondary-color)]"
+            >
               <span>Create Account</span>
             </a>
           </div>

@@ -14,10 +14,9 @@ import {
   removeProductFromLocalStorageUtil,
   addProductToCartLocalStorageUtil,
 } from "@src/utils/lib";
-import { HOST_URL } from "@src/utils/URLS";
+import { HOST_URL } from "@src/utils/validations";
 import axios from "axios";
 import { IRootState } from "../store";
-import { cookies } from "next/headers";
 
 interface RootState {
   isAuthenticated: boolean;
@@ -100,16 +99,60 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // .addCase(login.pending, (state) => {
+      //   state.loading = "pending";
+      // })
+      // .addCase(
+      //   login.fulfilled,
+      //   (state, action: PayloadAction<{ user: User; token: string }>) => {
+      //     state.loading = "fulfilled";
+      //     state.isAuthenticated = true;
+      //     state.user = action.payload.user;
+      //     state.token = action.payload.token;
+      //     state.error = null;
+      //   },
+      // )
+      // .addCase(login.rejected, (state) => {
+      //   state.loading = "rejected";
+      //   state.error = "Wrong email or password.";
+      // })
+      // .addCase(signup.pending, (state) => {
+      //   state.loading = "pending";
+      // })
+      // .addCase(
+      //   signup.fulfilled,
+      //   (state, action: PayloadAction<{ user: User; token: string }>) => {
+      //     state.loading = "fulfilled";
+      //     state.isAuthenticated = true;
+      //     state.user = action.payload.user;
+      //     state.token = action.payload.token;
+      //     state.error = null;
+      //   },
+      // )
+      // .addCase(signup.rejected, (state, action) => {
+      //   state.loading = "rejected";
+      //   state.error =
+      //     action.error.message || "An error occurred during signup.";
+      // })
+      .addCase(logout.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.token = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = "rejected";
+        state.error =
+          action.error.message || "An error occurred during logout.";
+      })
       .addCase(setUser.pending, (state) => {
         state.loading = "pending";
       })
-
       .addCase(
         setUser.fulfilled,
-        (
-          state,
-          action: PayloadAction<{ user: User | null; token: string | null }>,
-        ) => {
+        (state, action: PayloadAction<{ user: User; token: string }>) => {
           state.loading = "fulfilled";
           state.isAuthenticated = true;
           state.user = action.payload.user;
@@ -124,19 +167,19 @@ const authSlice = createSlice({
       .addCase(addToCart.pending, (state) => {
         state.loading = "pending";
       })
-      // .addCase(
-      //   addToCart.fulfilled,
-      //   (state, action: PayloadAction<{ id: number; count: number }>) => {
-      //     state.loading = "fulfilled";
-      //     state.user &&
-      //       (state.user.cart.products = [
-      //         ...state.user.cart.products.filter(
-      //           (product) => product.id !== action.payload.id,
-      //         ),
-      //         { id: action.payload.id, count: action.payload.count },
-      //       ]);
-      //   },
-      // )
+      .addCase(
+        addToCart.fulfilled,
+        (state, action: PayloadAction<{ id: number; count: number }>) => {
+          state.loading = "fulfilled";
+          state.user &&
+            (state.user.cart.products = [
+              ...state.user.cart.products.filter(
+                (product) => product.id !== action.payload.id,
+              ),
+              { id: action.payload.id, count: action.payload.count },
+            ]);
+        },
+      )
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = "rejected";
         state.error =
@@ -162,15 +205,51 @@ const authSlice = createSlice({
       .addCase(mergeCarts.pending, (state) => {
         state.loading = "pending";
       })
-      // .addCase(
-      //   mergeCarts.fulfilled,
-      //   (state, action: PayloadAction<{ cart: Cart }>) => {
-      //     state.loading = "fulfilled";
-      //     state.localStorage.products = action.payload.cart.products;
-      //     state.user && (state.user.cart = action.payload.cart);
-      //   },
-      // )
+      .addCase(
+        mergeCarts.fulfilled,
+        (state, action: PayloadAction<{ cart: Cart }>) => {
+          state.loading = "fulfilled";
+          state.localStorage.products = action.payload.cart.products;
+          state.user && (state.user.cart = action.payload.cart);
+        },
+      )
       .addCase(mergeCarts.rejected, (state, action) => {
+        state.loading = "rejected";
+        state.error =
+          action.error.message || "An error occurred while fetching products.";
+      })
+      .addCase(googleLogin.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(
+        googleLogin.fulfilled,
+        (state, action: PayloadAction<{ token: string; user: User }>) => {
+          state.loading = "fulfilled";
+          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.isAuthenticated = true;
+          state.error = null;
+        },
+      )
+      .addCase(googleLogin.rejected, (state, action) => {
+        state.loading = "rejected";
+        state.error =
+          action.error.message || "An error occurred while fetching products.";
+      })
+      .addCase(facebookLogin.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(
+        facebookLogin.fulfilled,
+        (state, action: PayloadAction<{ token: string; user: User }>) => {
+          state.loading = "fulfilled";
+          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.isAuthenticated = true;
+          state.error = null;
+        },
+      )
+      .addCase(facebookLogin.rejected, (state, action) => {
         state.loading = "rejected";
         state.error =
           action.error.message || "An error occurred while fetching products.";
@@ -185,8 +264,45 @@ export const {
 } = authSlice.actions;
 export default authSlice.reducer;
 
+// export const login = createAsyncThunk(
+//   "auth/login",
+//   async ({ email, password }: { email: string; password: string }) => {
+//     try {
+//       const response = await axios.post(`${HOST_URL}api/auth/login`, {
+//         email,
+//         password,
+//       });
+//       const token = response.data.token as string;
+//       const user = response.data.user as User;
+//       saveUserToken(token);
+//       return { user, token };
+//     } catch (error) {
+//       throw error;
+//     }
+//   },
+// );
+
+// export const signup = createAsyncThunk(
+//   "auth/signup",
+//   async (formData: SignUpFormData) => {
+//     try {
+//       const response = await axios.post(`${HOST_URL}api/auth/register`, formData);
+//       const token = response.data.token as string;
+//       saveUserToken(token);
+//       return { user: response.data.user as User, token: token };
+//     } catch (error) {
+//       throw error;
+//     }
+//   },
+// );
+
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
+    // const response = await axios.get(`${HOST_URL}api/auth/logout`, {
+    //   headers: {
+    //     Authorization: `Bearer ${getUserToken()}`,
+    //   },
+    // });
     deleteUserToken();
   } catch (error) {
     throw error;
@@ -195,9 +311,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 export const setUser = createAsyncThunk("auth/setuser", async () => {
   try {
-    // const userToken = windcookies().get("currentUser")?.value;
-    const userToken = "s";
-    if (!userToken) return { user: null, token: null };
+    const userToken = getUserToken();
     const response = await axios.get(`${HOST_URL}api/auth/user-data`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
@@ -209,6 +323,7 @@ export const setUser = createAsyncThunk("auth/setuser", async () => {
     throw error;
   }
 });
+
 export const addToCart = createAsyncThunk(
   "auth/addToCart",
   async ({ id, count }: { id: number; count: number }) => {
@@ -324,3 +439,45 @@ export const getUserCart = async () => {
     throw error;
   }
 };
+
+// export const googleLogin = createAsyncThunk(
+//   "auth/googleLogin",
+//   async (authCode: string) => {
+//     try {
+//       const response = await axios.post(
+//         `${HOST_URL}api/auth/google/login/`,
+//         {},
+//         {
+//           params: {
+//             auth_code: authCode,
+//           },
+//         },
+//       );
+//       const user = response.data.user as User;
+//       const userToken = response.data.token as string;
+//       saveUserToken(userToken);
+//       return { user: user, token: userToken };
+//     } catch (error) {
+//       throw error;
+//     }
+//   },
+// );
+// export const facebookLogin = createAsyncThunk(
+//   "auth/facebookLogin",
+//   async (code: string) => {
+//     try {
+//       const response = await axios.get(`${HOST_URL}api/auth/facebook/login/`, {
+//         params: {
+//           code: code,
+//         },
+//       });
+
+//       const user = response.data.user as User;
+//       const userToken = response.data.token as string;
+//       saveUserToken(userToken);
+//       return { user: user, token: userToken };
+//     } catch (error) {
+//       throw error;
+//     }
+//   },
+);

@@ -32,6 +32,7 @@ export default function Searchbox() {
       <div
         className={`absolute flex-center top-full bg-white p-3 rounded shadow text-sm text-black right-0 xl:right-96 duration-500 ease-in-out
       ${show ? "translate-y-0 visible opacity-100" : "translate-y-[-3rem] invisible opacity-0"}`}
+        onBlur={() => setShow(false)}
       >
         <form onSubmit={handleSearch}>
           <input name="query" type="text" placeholder="Search entire store here..." className="w-80 outline-none" value={input} onChange={(e) => setInput(e.target.value)} />

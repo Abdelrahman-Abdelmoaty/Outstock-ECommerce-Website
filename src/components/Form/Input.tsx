@@ -1,20 +1,32 @@
 "use client";
 import { useFormContext } from "react-hook-form";
 
-type Props = {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
-  type: string;
-};
+}
 
-export default function Input({ label, name, type }: Props) {
-  const { register } = useFormContext();
+export default function Input({ name, label, ...props }: Props) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   return (
-    <div className="my-4 text-[#666] text-sm">
-      <label htmlFor={name} className="block mb-1 capitalize">
+    <div className="my-4 text-sm text-[#666]">
+      <label htmlFor={name} className="mb-1 block capitalize">
         {label} <span className="text-red-500">*</span>
       </label>
-      <input id={name} type={type} {...register(name)} className="text-black bg-[#f5f5f5] block px-2 py-4 focus:outline-none w-full shadow-inner" />
+      <input
+        id={name}
+        className="block w-full bg-[#f5f5f5] px-2 py-4 text-black shadow-inner focus:outline-none"
+        {...props}
+        {...register(name)}
+      />
+      {errors[name] && (
+        <p className="text-xs text-red-500">
+          {errors[name]?.message?.toString()}
+        </p>
+      )}
     </div>
   );
 }

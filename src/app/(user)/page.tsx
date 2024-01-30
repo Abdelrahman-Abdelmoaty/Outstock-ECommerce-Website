@@ -23,12 +23,12 @@ import blogImage2 from "@public/assets/images/blog11.jpeg";
 import blogImage3 from "@public/assets/images/blog9_1.jpeg";
 import Hero from "@src/components/Hero/Hero";
 import axios from "axios";
-import { Product } from "@src/lib/types";
-import { HOST } from "@src/lib/validations";
+import { Product } from "@src/utils/types";
+import { HOST_URL } from "@src/utils/URLS";
 import Wrapper from "@src/components/Wrapper/Wrapper";
 
 export default async function Home() {
-  const response = await axios.get(`${HOST}api/products`);
+  const response = await axios.get(`${HOST_URL}api/products`);
   let products = (await response.data.data) as Product[];
 
   return (
@@ -36,42 +36,81 @@ export default async function Home() {
       <div>
         <Hero />
         <Wrapper>
-          <main className="p-8 bg-white shadow xl:mt-[-100px] xl:mb-[-100px] relative z-[9999]">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6">
-              <SmallWideCard text="British Made Pocket Knife - Oak" src={smallCard1.src} />
-              <SmallWideCard text="Chair Kimi No Isu Project" src={smallCard2.src} />
-              <SmallWideCard text="Merino Lambswool Scarf Moss" src={smallCard3.src} />
+          <main className="relative z-[9999] bg-white p-8 shadow xl:mb-[-100px] xl:mt-[-100px]">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              <SmallWideCard
+                text="British Made Pocket Knife - Oak"
+                src={smallCard1.src}
+              />
+              <SmallWideCard
+                text="Chair Kimi No Isu Project"
+                src={smallCard2.src}
+              />
+              <SmallWideCard
+                text="Merino Lambswool Scarf Moss"
+                src={smallCard3.src}
+              />
             </div>
             <Heading title="New Products" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              <ContentCard src={card1.src} secondSrc={card1Second.src} text="British Made Pocket Knife - Oak" rating={5} price={86} discount={5} newProduct={true} />
-              <ContentCard src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} />
-              <BigCard src={banner1.src} text="Creative Design Juicy Pendant Lamp" />
-              <BigCard src={banner2.src} text="Creative Design Juicy Pendant Lamp" />
-              <ContentCard src={card3.src} text="E27 PENDANT LAMP" rating={5} price={96} discount={74} />
-              <ContentCard src={card4.src} text="Form Chair Normann Black" rating={4.5} price={200} discount={50} />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+              <ContentCard
+                src={card1.src}
+                secondSrc={card1Second.src}
+                text="British Made Pocket Knife - Oak"
+                rating={5}
+                price={86}
+                discount={5}
+                newProduct={true}
+              />
+              <ContentCard
+                src={card2.src}
+                text="Chair Kimi No Isu Project"
+                rating={5}
+                price={230}
+                newProduct={true}
+              />
+              <BigCard
+                src={banner1.src}
+                text="Creative Design Juicy Pendant Lamp"
+              />
+              <BigCard
+                src={banner2.src}
+                text="Creative Design Juicy Pendant Lamp"
+              />
+              <ContentCard
+                src={card3.src}
+                text="E27 PENDANT LAMP"
+                rating={5}
+                price={96}
+                discount={74}
+              />
+              <ContentCard
+                src={card4.src}
+                text="Form Chair Normann Black"
+                rating={4.5}
+                price={200}
+                discount={50}
+              />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
-              <WideCard category="Products Essentials" text="Bottle With Wooden Cork" src={wideCard1.src} />
-              <WideCard category="Products Furniture" text="Hauteville Plywood Chair" src={wideCard2.src} />
+            <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <WideCard
+                category="Products Essentials"
+                text="Bottle With Wooden Cork"
+                src={wideCard1.src}
+              />
+              <WideCard
+                category="Products Furniture"
+                text="Hauteville Plywood Chair"
+                src={wideCard2.src}
+              />
             </div>
             <Heading title="Trending Products" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12">
-              {products.slice(0, 8).map((product) => (
-                <Card key={product.id} product={product} />
-              ))}
-              {/* <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} /> */}
-              {/* <Card src={card3.src} text="E27 PENDANT LAMP" rating={5} price={96} discount={74} /> */}
-              {/* <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} /> */}
-              {/* <Card src={card4.src} text="Form Chair Normann Black" rating={4.5} price={200} discount={50} /> */}
-              {/* <Card src={card3.src} text="E27 PENDANT LAMP" rating={5} price={96} discount={74} /> */}
-              {/* <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} /> */}
-              {/* <Card src={card4.src} text="Form Chair Normann Black" rating={4.5} price={200} discount={50} /> */}
-              {/* <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} /> */}
-              {/* <Card src={card3.src} text="E27 PENDANT LAMP" rating={5} price={96} discount={74} /> */}
-              {/* <Card src={card2.src} text="Chair Kimi No Isu Project" rating={5} price={230} newProduct={true} /> */}
+            <div className="grid grid-cols-1 gap-x-4 gap-y-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+              {products
+                ?.slice(0, 8)
+                .map((product) => <Card key={product.id} product={product} />)}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 mb-16 ">
+            {/* <div className="mb-16 mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 ">
               <BlogPost
                 imgUrl={blogImage1.src}
                 category={"Funiture"}
@@ -99,7 +138,7 @@ export default async function Home() {
                   "Diga, Koma and Torus are three kitchen utensils designed for Ommo, a new design-oriented brand introduced at the Ambiente show in February 2016. Minimalist approach, bright colors, stainless steel and matte plastic, abstract shapes and curved lines are the defining features of these products designed to be extremely functional, user-friendly and fun"
                 }
               />
-            </div>
+            </div> */}
           </main>
         </Wrapper>
       </div>

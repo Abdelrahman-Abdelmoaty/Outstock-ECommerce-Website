@@ -1,80 +1,83 @@
 "use client";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "@src/components/Form/Input";
-import LoadingComponent from "@src/components/Loading/LoadingComponent";
 import FacebookLogin from "@src/app/(user)/auth/components/FacebookLogin";
 import GoogleLogin from "@src/app/(user)/auth/components/GoogleLogin";
-import { signupSchema } from "@src/lib/schemas";
-import { signup } from "@src/redux/slices/authSlice";
+import { RegisterFormData, registerSchema } from "@src/utils/schemas";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, set, useForm } from "react-hook-form";
+import { register } from "@src/utils/actions";
+import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
+import { useAppDispatch } from "@src/redux/store";
+import { setAuthentication } from "@src/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
-import store, { useAppDispatch } from "@src/redux/store";
-import { User, SignUpFormData } from "@src/lib/types";
 
 export default function SignUp() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [error, setError] = useState<string>("");
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const methods = useForm({ resolver: yupResolver(signupSchema) });
-  const onSubmit = async (formData: SignUpFormData) => {
-    setIsLoading(true);
+  const methods = useForm({ resolver: yupResolver(registerSchema) });
+  const dispatch = useAppDispatch();
+  const onSubmit = async (formData: RegisterFormData) => {
     try {
-      await dispatch(signup(formData));
+      const response = await register(formData);
+      dispatch(setAuthentication(response));
       router.push("/");
-    } catch {
-      setError(store.getState().auth.error as string);
+    } catch (error: any) {
+      setError(error.message);
     }
-    setIsLoading(false);
   };
   return (
     <div className="bg-white">
-      {isLoading ? (
-        <div className="flex-center h-[70vh]">
-          <LoadingComponent />
-        </div>
-      ) : (
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <div className="my-12">
-              <p className="text-[#333] text-center text-4xl font-medium mb-12">Create New Customer Account</p>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <div className="p-8 border rounded mb-5">
-                  <p className="font-medium text-xl mb-10">Personal Information</p>
-                  <Input label="name" name="name" type="text" />
-                  {methods.formState.errors.name && <p className="text-red-500">{methods.formState.errors.name.message}</p>}
-                  <Input label="username" name="username" type="text" />
-                  {methods.formState.errors.username && <p className="text-red-500">{methods.formState.errors.username.message}</p>}
-                  <Input label="phone number" name="phoneNumber" type="text" />
-                  {methods.formState.errors.phoneNumber && <p className="text-red-500">{methods.formState.errors.phoneNumber.message}</p>}
-                  <GoogleLogin />
-                  <FacebookLogin />
-                </div>
-                <div className="p-8 border rounded mb- h-fit">
-                  <p className="font-medium text-xl mb-10">Sign-in Information</p>
-                  <Input label="email" name="email" type="email" />
-                  {methods.formState.errors.email && <p className="text-red-500">{methods.formState.errors.email.message}</p>}
-                  <Input label="new password" name="password" type="password" />
-                  {methods.formState.errors.password && <p className="text-red-500">{methods.formState.errors.password.message}</p>}
-                  <Input label="confirm password" name="password_confirmation" type="password" />
-                  {methods.formState.errors.password_confirmation && <p className="text-red-500">{methods.formState.errors.password_confirmation.message}</p>}
-                </div>
-                {error && <p className="text-red-500">{error}</p>}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <div className="my-12">
+            <p className="mb-12 text-center text-4xl font-medium text-[#333]">
+              Create New Customer Account
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="mb-5 rounded border p-8">
+                <p className="mb-10 text-xl font-medium">
+                  Personal Information
+                </p>
+                <Input label="name" name="name" type="text" />
+                <Input label="username" name="username" type="text" />
+                <Input label="phone number" name="phoneNumber" type="text" />
+                <GoogleLogin />
+                <FacebookLogin />
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <a href="/auth/" className="text-center inline-block border-2 border-black font-semibold text-sm uppercase px-20 py-4 animate-btn hover:border-[var(--secondary-color)] mt-5">
-                  <span>Back</span>
-                </a>
-                <button type="submit" className="text-center inline-block border-2 border-black font-semibold text-sm uppercase px-20 py-4 animate-btn hover:border-[var(--secondary-color)] mt-5">
-                  <span>Create An Account</span>
-                </button>
+              <div className="mb- h-fit rounded border p-8">
+                <p className="mb-10 text-xl font-medium">Sign-in Information</p>
+                <Input label="email" name="email" type="email" />
+                <Input label="new password" name="password" type="password" />
+                <Input
+                  label="confirm password"
+                  name="password_confirmation"
+                  type="password"
+                />
               </div>
+              {error && <p className="text-red-500">{error}</p>}
             </div>
-          </form>
-        </FormProvider>
-      )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <a
+                href="/auth"
+                className="animate-btn mt-5 inline-block border-2 border-black px-20 py-4 text-center text-sm font-semibold uppercase hover:border-[var(--secondary-color)]"
+              >
+                <span>Back</span>
+              </a>
+              <button
+                type="submit"
+                className="animate-btn mt-5 inline-block border-2 border-black px-20 py-4 text-center text-sm font-semibold uppercase hover:border-[var(--secondary-color)]"
+              >
+                {methods.formState.isSubmitting ? (
+                  <LoadingSpinner sz="4" />
+                ) : (
+                  <span>Create An Account</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 }

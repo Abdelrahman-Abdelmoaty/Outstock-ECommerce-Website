@@ -3,9 +3,9 @@ import { ChangeEvent, useRef, useState, MouseEvent } from "react";
 import { FormProvider, set, useForm, useFormContext } from "react-hook-form";
 import Input from "@src/components/Form/Input";
 import axios from "axios";
-import { addProductSchema } from "@src/lib/schemas";
+import { addProductSchema } from "@src/utils/schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getUserToken } from "@src/lib/utils";
+import { getUserToken } from "@src/utils/lib";
 import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
 export default function AddProduct() {
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -19,7 +19,9 @@ export default function AddProduct() {
     document.getElementById("filesupload")?.click();
   };
   const handleImagesInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const imagesUrls = Array.from(e.target.files || []).map((img) => URL.createObjectURL(img));
+    const imagesUrls = Array.from(e.target.files || []).map((img) =>
+      URL.createObjectURL(img),
+    );
     setImages(imagesUrls);
   };
   const onSubmit = async (data: any) => {
@@ -28,7 +30,8 @@ export default function AddProduct() {
     formData.append("name", data.name);
     formData.append("price", data.price);
     formData.append("quantity", data.quantity);
-    const imgs = (document.getElementById("filesupload") as HTMLInputElement)?.files;
+    const imgs = (document.getElementById("filesupload") as HTMLInputElement)
+      ?.files;
     if (imgs) {
       for (let i = 0; i < imgs.length; i++) {
         formData.append("images[]", imgs[i]);
@@ -36,7 +39,7 @@ export default function AddProduct() {
     }
 
     try {
-      // const response = await axios.post(`${HOST}api/products`, formData, {
+      // const response = await axios.post(`${HOST_URL}api/products`, formData, {
       //   headers: {
       //     "Content-Type": "multipart/form-data",
       //     Authorization: `Bearer ${getUserToken()}`,
@@ -55,7 +58,7 @@ export default function AddProduct() {
     <div className="bg-white">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="xl:w-[60%] mx-auto my-12">
+          <div className="mx-auto my-12 xl:w-[60%]">
             <input
               {...methods.register("images", {
                 onChange: handleImagesInput,
@@ -66,12 +69,15 @@ export default function AddProduct() {
               accept="image/*"
               id="filesupload"
             />
-            <div className="w-full p-5 bg-[#f5f5f5]">
-              <div className="py-10 border-2 border-dashed border-[#b7b6b6] flex-center text-[#b7b6b6] text-6xl font-light cursor-pointer" onClick={handleImagesInputBtn}>
+            <div className="w-full bg-[#f5f5f5] p-5">
+              <div
+                className="flex-center cursor-pointer border-2 border-dashed border-[#b7b6b6] py-10 text-6xl font-light text-[#b7b6b6]"
+                onClick={handleImagesInputBtn}
+              >
                 {imagesState.length > 0 ? (
                   <>
                     {imagesState.map((image, index) => (
-                      <div className="max-w-xs m-4 float-left" key={index}>
+                      <div className="float-left m-4 max-w-xs" key={index}>
                         <img src={image} alt="" className="img-fill" />
                       </div>
                     ))}
@@ -81,19 +87,48 @@ export default function AddProduct() {
                 )}
               </div>
             </div>
-            {methods.formState.errors.images && <p className="text-red-500">{methods.formState.errors.images.message}</p>}
+            {methods.formState.errors.images && (
+              <p className="text-red-500">
+                {methods.formState.errors.images.message}
+              </p>
+            )}
             <Input label="name" name="name" type="text" />
-            {methods.formState.errors.name && <p className="text-red-500">{methods.formState.errors.name.message}</p>}
+            {methods.formState.errors.name && (
+              <p className="text-red-500">
+                {methods.formState.errors.name.message}
+              </p>
+            )}
             <Input label="price" name="price" type="number" />
-            {methods.formState.errors.price && <p className="text-red-500">{methods.formState.errors.price.message}</p>}
+            {methods.formState.errors.price && (
+              <p className="text-red-500">
+                {methods.formState.errors.price.message}
+              </p>
+            )}
             <Input label="quantity" name="quantity" type="number" />
-            {methods.formState.errors.quantity && <p className="text-red-500">{methods.formState.errors.quantity.message}</p>}
+            {methods.formState.errors.quantity && (
+              <p className="text-red-500">
+                {methods.formState.errors.quantity.message}
+              </p>
+            )}
             <Input label="category id" name="categoryId" type="number" />
-            {methods.formState.errors.categoryId && <p className="text-red-500">{methods.formState.errors.categoryId.message}</p>}
+            {methods.formState.errors.categoryId && (
+              <p className="text-red-500">
+                {methods.formState.errors.categoryId.message}
+              </p>
+            )}
             <Input label="color id" name="colorId" type="number" />
-            {methods.formState.errors.colorId && <p className="text-red-500">{methods.formState.errors.colorId.message}</p>}
-            {added && <p className="text-green-500">Product Added Successfully!</p>}
-            <button type="submit" className="animate-btn w-full p-4 border-2 border-black bg-white uppercase font-semibold hover:border-[var(--secondary-color)]">
+            {methods.formState.errors.colorId && (
+              <p className="text-red-500">
+                {methods.formState.errors.colorId.message}
+              </p>
+            )}
+            {added && (
+              <p className="text-green-500">Product Added Successfully!</p>
+            )}
+            <button
+              type="submit"
+              className="animate-btn w-full border-2 border-black bg-white p-4 font-semibold uppercase hover:border-[var(--secondary-color)]"
+            >
               <span>{isPending ? <LoadingSpinner sz="5" /> : "Add"}</span>
             </button>
           </div>

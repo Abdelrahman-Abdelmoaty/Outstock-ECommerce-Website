@@ -1,15 +1,18 @@
 "use client";
-
-import { HOST } from "@src/lib/validations";
+import { HOST_URL } from "@src/utils/URLS";
 import axios from "axios";
 
 export default function GoogleLogin() {
   const handleLogin = async () => {
-    const response = await axios.get(`${HOST}api/auth/google/login/url`);
+    const response = await axios.get(`${HOST_URL}api/auth/google/login/url`);
     open(response.data, "_self");
   };
   return (
-    <button type="button" className="flex-center w-full my-5 hover:shadow-inner ease-500 bg-white border border-gray-300 rounded py-4 text-sm font-medium" onClick={handleLogin}>
+    <button
+      type="button"
+      className="flex-center ease-500 my-5 w-full rounded border border-gray-300 bg-white py-4 text-sm font-medium hover:shadow-inner"
+      onClick={handleLogin}
+    >
       <GoogleIcon />
       <span>Continue with Google</span>
     </button>
@@ -19,8 +22,20 @@ export default function GoogleLogin() {
 function GoogleIcon() {
   return (
     <div>
-      <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="-0.5 0 48 48" version="1.1">
-        <g id="Icons" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <svg
+        className="mr-2 h-6 w-6"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        viewBox="-0.5 0 48 48"
+        version="1.1"
+      >
+        <g
+          id="Icons"
+          stroke="none"
+          strokeWidth="1"
+          fill="none"
+          fillRule="evenodd"
+        >
           <g id="Color-" transform="translate(-401.000000, -860.000000)">
             <g id="Google" transform="translate(401.000000, 860.000000)">
               <path

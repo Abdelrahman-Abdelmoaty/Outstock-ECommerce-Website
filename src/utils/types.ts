@@ -16,8 +16,11 @@ export type BlogPost = {
   desc: string;
 };
 
-// //////////////////////////
-export type Product = {
+export type LocalStorage = {
+  products: { id: number; count: number }[];
+};
+
+export interface Product {
   id: number;
   name: string;
   price: number;
@@ -28,8 +31,7 @@ export type Product = {
   discount?: number;
   date?: string;
   color?: string;
-  count?: number;
-};
+}
 
 export type User = {
   id: string;
@@ -42,20 +44,9 @@ export type User = {
   cart: Cart;
 };
 
-export type SignUpFormData = {
-  name: string;
-  username: string;
-  phoneNumber: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-};
-
-export type LocalStorage = {
-  products: { id: number; count: number }[];
-};
+export interface CartProduct extends Product {
+  count: number;
+}
 export type Cart = {
-  id: number;
-  userId: number;
-  products: { id: number; count: number }[];
+  products: CartProduct[];
 };

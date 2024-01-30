@@ -6,6 +6,7 @@ import PagesNavbar from "./MiniComponents/PagesNavbar";
 import CloseIcon from "@mui/icons-material/Close";
 import MobileLeftNav from "./MobileLeftNav";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function MiddleNav() {
   const pathName = usePathname();
@@ -19,23 +20,32 @@ export default function MiddleNav() {
   };
   return (
     <div className="xl:order-2">
-      <button className="xl:hidden text-black" onClick={handleLeftMenu}>
+      <button className="text-black xl:hidden" onClick={handleLeftMenu}>
         <MenuOutlinedIcon />
       </button>
-      <div ref={nav} className="text-[var(--font-color)] ease-500 w-full left-0 top-0 p-0 text-base h-auto bg-inherit translate-x-0 hidden xl:flex">
+      <div
+        ref={nav}
+        className="ease-500 left-0 top-0 hidden h-auto w-full translate-x-0 bg-inherit p-0 text-base text-[var(--font-color)] xl:flex"
+      >
         <button type="button" onClick={handleClose} className="xl:hidden">
-          <CloseIcon className="text-black text-4xl mb-12" />
+          <CloseIcon className="mb-12 text-4xl text-black" />
         </button>
-        <ul className="flex text-3xl xl:text-base items-start xl:items-center flex-col xl:flex-row gap-y-5 xl:gap-y-0 ">
+        <ul className="flex flex-col items-start gap-y-5 text-3xl xl:flex-row xl:items-center xl:gap-y-0 xl:text-base ">
           <li>
-            <a href="/" className={`${pathName === "/" && "text-[var(--secondary-color)]"}`}>
+            <a
+              href="/"
+              className={`${pathName === "/" && "text-[var(--secondary-color)]"}`}
+            >
               Home
             </a>
           </li>
           <li>
-            <a href="/shop" className={`${pathName === "/shop" && "text-[var(--secondary-color)]"}`}>
+            <Link
+              href="/shop"
+              className={`${pathName === "/shop" && "text-[var(--secondary-color)]"}`}
+            >
               Shop
-            </a>
+            </Link>
             {/* <ShopNavbar /> */}
           </li>
           <li>

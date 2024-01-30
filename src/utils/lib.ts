@@ -1,5 +1,8 @@
 "use client";
 
+import clsx, { ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 // Handle User Token In Local Storage
 export const saveUserToken = (token: string) => {
   localStorage.setItem("userToken", token);
@@ -13,14 +16,27 @@ export const getUserToken = () => {
 
 // Handle Cart On Local Storage
 export const getProductsFromLocalStorageUtil = () => {
-  return (JSON.parse(localStorage.getItem("cart") as string) as { id: number; count: number }[]) || [];
+  return (
+    (JSON.parse(localStorage.getItem("cart") as string) as {
+      id: number;
+      count: number;
+    }[]) || []
+  );
 };
 export const addProductToCartLocalStorageUtil = (id: number, count: number) => {
-  const cart = getProductsFromLocalStorageUtil().filter((product) => product.id !== id);
+  const cart = getProductsFromLocalStorageUtil().filter(
+    (product) => product.id !== id,
+  );
   cart.push({ id, count });
   localStorage.setItem("cart", JSON.stringify(cart));
 };
 export const removeProductFromLocalStorageUtil = (id: number) => {
-  const cart = getProductsFromLocalStorageUtil().filter((product) => product.id !== id);
+  const cart = getProductsFromLocalStorageUtil().filter(
+    (product) => product.id !== id,
+  );
   localStorage.setItem("cart", JSON.stringify(cart));
 };
+
+export function cn(...classes: ClassValue[]) {
+  return twMerge(clsx(classes));
+}
