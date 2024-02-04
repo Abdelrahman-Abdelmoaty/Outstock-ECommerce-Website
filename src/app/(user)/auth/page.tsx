@@ -8,20 +8,22 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
 import { authenticate } from "@src/utils/actions";
-import { useAppDispatch } from "@src/redux/store";
-import { setAuthentication } from "@src/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@src/redux/slices/userSlice";
+import { toast } from "sonner";
 
 export default function Login() {
   const router = useRouter();
   const methods = useForm({ resolver: yupResolver(loginSchema) });
   const [error, setError] = useState<string>("");
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const onSubmit = async (formData: LoginFormData) => {
     try {
       const response = await authenticate(formData);
-      dispatch(setAuthentication(response));
-      router.back();
+      dispatch(setUser(response.user));
+      toast.success("Logged in successfully");
+      router.push("/");
     } catch (error: any) {
       setError(error.message);
     }

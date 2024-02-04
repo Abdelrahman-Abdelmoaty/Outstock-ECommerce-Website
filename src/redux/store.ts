@@ -14,15 +14,3 @@ export type RootState = ReturnType<StoreType["getState"]>;
 export type AppDispatch = StoreType["dispatch"];
 
 
-
-// IGNORE THIS
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export type IRootState = ReturnType<typeof rootReducer>;
-// export const getState: () => RootState = store.getState;

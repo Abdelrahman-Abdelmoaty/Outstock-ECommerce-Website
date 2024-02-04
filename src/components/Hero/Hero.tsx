@@ -1,10 +1,9 @@
 "use client";
-import "@src/components/Hero/Hero.css";
-import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
-import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import slider_1 from "@public/assets/images/slider-1.jpg";
 import slider_2 from "@public/assets/images/slider-2.jpg";
+import "@src/components/Hero/Hero.css";
 
 export default function Hero() {
   const slides = [
@@ -17,50 +16,64 @@ export default function Hero() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => {
-        return prev === 0 ? slides.length - 1 : prev - 1;
-      });
+      setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
     }, 5000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [currentIndex]);
+  }, []);
 
   const handleNextBtn = () => {
-    setCurrentIndex((prev) => {
-      return prev === 0 ? slides.length - 1 : prev - 1;
-    });
+    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
+
   const handlePrevBtn = () => {
-    setCurrentIndex((prev) => {
-      return prev === slides.length - 1 ? 0 : prev + 1;
-    });
+    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
+
   return (
-    <div key={currentIndex} className="w-screen over py-[10rem] xl:py-[19rem] text-white group relative bg-cover bg-center overflow-x-hidden" style={{ backgroundImage: `url(${slides[currentIndex].url})` }}>
+    <div
+      key={currentIndex}
+      className="over group relative w-screen overflow-x-hidden bg-cover bg-center py-[10rem] text-white xl:py-[19rem]"
+      style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
+    >
       <div className="progress"></div>
-      <div onClick={handleNextBtn}>
-        <ArrowBackIosOutlinedIcon className="arrow left-10 invisible xl:visible" />
-      </div>
-      <div className="w-[90%] xl:w-[65%] mx-auto">
+      <button
+        onClick={handleNextBtn}
+        className="flex-center hover: invisible absolute left-10 top-1/2 -translate-y-1/2 rounded-full bg-white p-1 text-[var(--secondary-color)] transition hover:bg-black hover:text-white xl:group-hover:visible"
+      >
+        <ChevronLeft className="fill-nonex relative h-8 w-8" />
+      </button>
+      <div className="mx-auto w-[90%] xl:w-[65%]">
         <div className="relative z-10">
-          <p className="font-bold text-4xl animate-text">
+          <p className="animate-text text-4xl font-bold">
             Lighting <br /> Creative Furniture
           </p>
-          <p className="text-sm mt-4 mb-12 animate-text" style={{ animationDuration: "1.2s" }}>
-            From luxury watches and chronographs to wall clocks <br /> and weather stations, Henning Koppel's.
+          <p
+            className="animate-text mb-12 mt-4 text-sm"
+            style={{ animationDuration: "1.2s" }}
+          >
+            From luxury watches and chronographs to wall clocks <br /> and
+            weather stations, Henning Koppel's.
           </p>
-          <a href="/shop" className="bg-white text-black py-3 px-10 font-medium text-sm animate-btn animate-btn-scale">
+          <a
+            href="/shop"
+            className="animate-btn animate-btn-scale bg-white px-10 py-3 text-sm font-medium text-black"
+          >
             <span>DISCOVER NOW</span>
           </a>
         </div>
       </div>
-      <div onClick={handlePrevBtn}>
-        <ArrowForwardIosOutlinedIcon className="arrow right-10 invisible xl:visible" />
-      </div>
+      <button
+        onClick={handlePrevBtn}
+        className="flex-center hover: invisible absolute right-10 top-1/2 -translate-y-1/2  rounded-full bg-white p-1 text-[var(--secondary-color)] transition hover:bg-black hover:text-white xl:group-hover:visible"
+      >
+        <ChevronRight className="h-8 w-8 fill-none" />
+      </button>
     </div>
   );
 }

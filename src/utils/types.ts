@@ -1,25 +1,3 @@
-export type TempProduct = {
-  src: string;
-  secondSrc?: string;
-  text: string;
-  rating: number;
-  price: number;
-  discount?: number;
-  newProduct?: boolean;
-};
-
-export type BlogPost = {
-  imgUrl: string;
-  category: string;
-  title: string;
-  date: string;
-  desc: string;
-};
-
-export type LocalStorage = {
-  products: { id: number; count: number }[];
-};
-
 export interface Product {
   id: number;
   name: string;
@@ -41,7 +19,6 @@ export type User = {
   email: string;
   password: string;
   isAdmin?: boolean;
-  cart: Cart;
 };
 
 export interface CartProduct extends Product {

@@ -9,7 +9,9 @@ import {
   LOGIN_URL,
   LOGOUT_URL,
   REGISTER_URL,
+  REMOVE_FROM_CART_URL,
   USER_CART_URL,
+  USER_DATA_URL,
 } from "./URLS";
 import { Cart, CartProduct, Product, User } from "./types";
 import { cookies } from "next/headers";
@@ -18,15 +20,10 @@ import { cookies } from "next/headers";
 export async function authenticate(formData: LoginFormData) {
   const cookie = cookies();
   try {
-    const response = await axios.post(LOGIN_URL, {
-      ...formData,
-    });
-    const data = (await response.data) as { token: string; user: User };
-
+    const response = await axios.post(LOGIN_URL, formData);
+    const data: { token: string; user: User } = await response.data;
     if (data.user.isAdmin === true) cookie.set("admin", "true");
-    cookie.set("currentUser", response.data.token, {
-      sameSite: "none",
-    });
+    cookie.set("currentUser", data.token);
     await mergeCarts();
     return data;
   } catch (error: any) {
@@ -41,12 +38,8 @@ export async function authenticate(formData: LoginFormData) {
 export async function register(formData: RegisterFormData) {
   const cookie = cookies();
   try {
-    const response = await axios.post(REGISTER_URL, {
-      ...formData,
-    });
-    cookie.set("currentUser", response.data.token, {
-      sameSite: "none",
-    });
+    const response = await axios.post(REGISTER_URL, formData);
+    cookie.set("currentUser", response.data.token);
     await mergeCarts();
     return response.data as { token: string; user: User };
   } catch (error: any) {
@@ -66,9 +59,7 @@ export async function authenticateGoogle(authCode: string) {
         },
       },
     );
-    cookie.set("currentUser", response.data.token, {
-      sameSite: "none",
-    });
+    cookie.set("currentUser", response.data.token);
     await mergeCarts();
     return response.data as { token: string; user: User };
   } catch (error: any) {
@@ -84,9 +75,7 @@ export async function authenticateFacebook(authCode: string) {
         code: authCode,
       },
     });
-    cookie.set("currentUser", response.data.token, {
-      sameSite: "none",
-    });
+    cookie.set("currentUser", response.data.token);
     await mergeCarts();
     return response.data as { token: string; user: User };
   } catch (error: any) {
@@ -94,7 +83,7 @@ export async function authenticateFacebook(authCode: string) {
   }
 }
 
-export async function leave() {
+export async function logout() {
   const cookie = cookies();
   try {
     await axios.get(LOGOUT_URL, {
@@ -109,6 +98,34 @@ export async function leave() {
 }
 
 // Handling user data
+export async function getUserData() {
+  const cookie = cookies();
+  try {
+    const response = await axios.get(USER_DATA_URL, {
+      headers: {
+        Authorization: `Bearer ${cookie.get("currentUser")?.value}`,
+      },
+    });
+    return response.data.data as User;
+  } catch (error: any) {
+    throw new Error("Something went wrong, please try again.");
+  }
+}
+
+export async function getUserCart() {
+  const cookie = cookies();
+  try {
+    const response = await axios.get(USER_CART_URL, {
+      headers: {
+        Authorization: `Bearer ${cookie.get("currentUser")?.value}`,
+      },
+    });
+    return response.data.data as Cart;
+  } catch (error: any) {
+    throw new Error("Something went wrong, please try again.");
+  }
+}
+
 export async function addToCart(cartProduct: CartProduct) {
   const cookie = cookies();
   if (cookie.get("currentUser")) {
@@ -124,27 +141,66 @@ export async function addToCart(cartProduct: CartProduct) {
           },
         },
       );
+      const cart = await getUserCart();
+      return cart;
+    } catch (error: any) {
+      throw new Error("Something went wrong, please try again.");
+    }
+  } else {
+    const tempCart = cookies().get("tempCart")?.value;
+    let cart: Cart = {
+      products: [],
+    };
+    if (tempCart) {
+      cart = JSON.parse(tempCart);
+    }
+    const filteredCart: Cart = {
+      ...cart,
+      products: cart.products.filter((pr) => pr.id !== cartProduct.id),
+    };
+    if (cartProduct.count !== 0) filteredCart.products.push(cartProduct);
+    cookie.set("tempCart", JSON.stringify(filteredCart));
+    return filteredCart;
+  }
+}
+
+export async function removeFromCart(cartProduct: CartProduct) {
+  const cookie = cookies();
+  if (cookie.get("currentUser")) {
+    try {
+      let response = await axios.post(
+        REMOVE_FROM_CART_URL,
+        {
+          products: [{ id: cartProduct.id }],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookie.get("currentUser")?.value}`,
+          },
+        },
+      );
+
       response = await axios.get(USER_CART_URL, {
         headers: {
           Authorization: `Bearer ${cookie.get("currentUser")?.value}`,
         },
       });
-      return response.data as Cart;
+
+      return response.data.data as Cart;
     } catch (error: any) {
       throw new Error("Something went wrong, please try again.");
     }
   } else {
-    let tempCart: Cart = {
+    const tempCart = cookies().get("tempCart")?.value;
+    let cart: Cart = {
       products: [],
     };
-    if (cookie.get("tempCart")?.value)
-      tempCart = JSON.parse(cookie.get("tempCart")?.value || "{}") as Cart;
+    if (tempCart) {
+      cart = JSON.parse(tempCart);
+    }
     const newTempCart: Cart = {
-      ...tempCart,
-      products: [
-        ...tempCart.products.filter((pr) => pr.id !== cartProduct.id),
-        cartProduct,
-      ],
+      ...cart,
+      products: [...cart.products.filter((pr) => pr.id !== cartProduct.id)],
     };
     cookie.set("tempCart", JSON.stringify(newTempCart));
     return newTempCart;
@@ -167,5 +223,3 @@ export async function mergeCarts() {
     throw new Error("Something went wrong, please try again.");
   }
 }
-
-export async function getUserCart() {}

@@ -1,10 +1,10 @@
 "use client";
 import { setCart, useCart } from "@src/redux/slices/cartSlice";
-import { useUser } from "@src/redux/slices/userSlice";
 import { addToCart } from "@src/utils/actions";
 import { Product } from "@src/utils/types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 export default function AddToCart({ product }: { product: Product }) {
   const dispatch = useDispatch();
@@ -20,19 +20,22 @@ export default function AddToCart({ product }: { product: Product }) {
   };
   const handleAddToCart = async () => {
     dispatch(setCart(await addToCart({ ...product, count })));
+    if (count > 0) {
+      toast.success("Product added to cart");
+    }
   };
   return (
     <div className="flex items-center gap-4">
       <div className="flex w-fit items-center border-2 border-gray-300">
         <button
-          className="px-6 py-4 text-xl font-semibold"
+          className="px-3 py-2 text-xl font-semibold lg:px-6 lg:py-4"
           onClick={decreaseCount}
         >
           -
         </button>
         <p className="w-8 py-4 text-center">{count}</p>
         <button
-          className="px-6 py-4 text-xl font-semibold"
+          className="px-3 py-2 text-xl font-semibold lg:px-6 lg:py-4"
           onClick={increaseCount}
         >
           +

@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const admin = request.cookies.get("admin")?.value;
+  const user = request.cookies.get("user")?.value;
 
   if (!admin) {
     return NextResponse.redirect(new URL("/auth", request.url));

@@ -1,14 +1,8 @@
 "use client";
-import logo from "@public/assets/images/logo-footer.png";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import EmailIcon from "@mui/icons-material/Email";
-import PhoneIcon from "@mui/icons-material/Phone";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import RssFeedOutlinedIcon from "@mui/icons-material/RssFeedOutlined";
+import { MapPin, Mail, Phone, Twitter, Facebook, Linkedin } from "lucide-react";
 import Wrapper from "../Wrapper/Wrapper";
+import Image from "next/image";
+import logo from "@public/assets/images/logo_footer.svg";
 
 export default function Footer() {
   return (
@@ -16,9 +10,14 @@ export default function Footer() {
       <Wrapper>
         <div className="grid grid-cols-2 gap-4 pb-16 pt-40 md:grid-cols-4">
           <div className="col-span-2 flex flex-col gap-y-4">
-            <a href="#">
-              <div className="mb-6">
-                <img src={logo.src} alt="" />
+            <a href="/">
+              <div className="mb-1">
+                <Image
+                  src={logo}
+                  alt="outstock-logo"
+                  width={200}
+                  height={150}
+                />
               </div>
             </a>
             <p>
@@ -29,19 +28,19 @@ export default function Footer() {
             <ul>
               <li>
                 <div className="my-2 flex items-center">
-                  <LocationOnIcon className="mr-1 h-6 w-6" />
+                  <MapPin className="mr-1 h-6 w-6" />
                   <p>1234 Heaven Stress, Beverly Hill.</p>
                 </div>
               </li>
               <li>
                 <div className="my-2 flex items-center">
-                  <EmailIcon className="mr-2 h-5 w-5" />
+                  <Mail className="mr-2 h-5 w-5" />
                   <p>Email: info@thebuesky.com</p>
                 </div>
               </li>
               <li>
                 <div className="my-2 flex items-center">
-                  <PhoneIcon className="mr-2 h-5 w-5" />
+                  <Phone className="mr-2 h-5 w-5" />
                   <p>Telephone: +01 234 567 89</p>
                 </div>
               </li>
@@ -121,27 +120,17 @@ export default function Footer() {
           <ul className="flex min-w-[200px] flex-1 items-center justify-center gap-5">
             <li>
               <a href="#">
-                <TwitterIcon className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
+                <Twitter className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
               </a>
             </li>
             <li>
               <a href="#">
-                <FacebookOutlinedIcon className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
+                <Facebook className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
               </a>
             </li>
             <li>
               <a href="#">
-                <GoogleIcon className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <LinkedInIcon className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <RssFeedOutlinedIcon className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
+                <Linkedin className="ease-500 h-5 w-5 hover:text-[var(--secondary-color)]" />
               </a>
             </li>
           </ul>

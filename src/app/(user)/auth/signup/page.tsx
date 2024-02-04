@@ -8,19 +8,19 @@ import { useState } from "react";
 import { FormProvider, set, useForm } from "react-hook-form";
 import { register } from "@src/utils/actions";
 import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
-import { useAppDispatch } from "@src/redux/store";
-import { setAuthentication } from "@src/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@src/redux/slices/userSlice";
 
 export default function SignUp() {
   const router = useRouter();
   const [error, setError] = useState<string>("");
   const methods = useForm({ resolver: yupResolver(registerSchema) });
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const onSubmit = async (formData: RegisterFormData) => {
     try {
       const response = await register(formData);
-      dispatch(setAuthentication(response));
+      dispatch(setUser(response.user));
       router.push("/");
     } catch (error: any) {
       setError(error.message);

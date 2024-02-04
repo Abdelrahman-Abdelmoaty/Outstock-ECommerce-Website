@@ -8,3 +8,4 @@ export const USER_DATA_URL = `${HOST_URL}api/auth/user-data/`;
 export const PRODUCTS_URL = `${HOST_URL}api/products/`;
 export const USER_CART_URL = `${HOST_URL}api/carts/my-cart/`;
 export const ADD_TO_CART_URL = `${HOST_URL}api/carts/add-to-cart/`;
+export const REMOVE_FROM_CART_URL = `${HOST_URL}api/carts/remove-from-cart/`;

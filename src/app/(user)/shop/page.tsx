@@ -1,11 +1,11 @@
-import Card from "@src/components/Cards/Card";
+import Card from "@src/components/Card/Card";
 import { Product } from "@src/utils/types";
 import axios from "axios";
 import shopImg from "@public/assets/images/shop-1.jpg";
-import SearchIcon from "@mui/icons-material/Search";
 import { redirect } from "next/navigation";
 import { HOST_URL } from "@src/utils/URLS";
 import Wrapper from "@src/components/Wrapper/Wrapper";
+import { Search } from "lucide-react";
 
 export default async function page({
   searchParams,
@@ -14,7 +14,6 @@ export default async function page({
 }) {
   const response = await axios.get(`${HOST_URL}api/products`);
   let products = (await response.data.data) as Product[];
-
   const query = searchParams.query;
   if (query) {
     products = products.filter((product) =>
@@ -30,6 +29,7 @@ export default async function page({
       redirect(`?${params}`);
     }
   };
+
   return (
     <div>
       <div
@@ -56,7 +56,7 @@ export default async function page({
                       placeholder="Search"
                       className="w-full outline-none"
                     />
-                    <SearchIcon className="text-gray-400" />
+                    <Search className="text-gray-400" />
                   </div>
                 </form>
               </div>

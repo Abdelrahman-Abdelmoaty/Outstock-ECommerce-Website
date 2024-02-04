@@ -1,5 +1,5 @@
 import { Product } from "@src/utils/types";
-import Rating from "@src/components/Cards/Rating";
+import Rating from "@src/components/Card/Rating";
 import { HOST_URL } from "@src/utils/URLS";
 import Wrapper from "@src/components/Wrapper/Wrapper";
 import AddToCart from "./AddToCart";
@@ -15,8 +15,8 @@ export default async function Product({
   return (
     <div className="bg-[var(--primary-color)]">
       <Wrapper>
-        <div className="flex flex-col items-center gap-5 py-20 lg:flex-row lg:items-start">
-          <div className="flex gap-2 lg:flex-col">
+        <div className="flex flex-col items-center gap-5 py-20 md:flex-row md:items-start">
+          <div className="flex gap-2 md:flex-col">
             {product.images.map((img: string, index: number) => (
               <div
                 key={img}
@@ -33,13 +33,11 @@ export default async function Product({
               </div>
             ))}
           </div>
-          <div className="mx-20 w-full border-2 border-white lg:w-[80rem]">
-            <img
-              src={HOST_URL + product.images[0].slice(1)}
-              alt={product.name}
-              className="img-fill"
-            />
-          </div>
+          <img
+            src={HOST_URL + product.images[0].slice(1)}
+            alt={product.name}
+            className="max-w-md flex-1 border-2 border-white"
+          />
           <div className="flex flex-col gap-y-3">
             <div>
               <p className="text-2xl font-medium">{product.name}</p>

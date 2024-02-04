@@ -1,59 +1,61 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import ReduxProvider from "@src/redux/components/ReduxProvider";
-import Loader from "@src/redux/components/Loader";
 import favicon from "@public/assets/images/favicon.ico";
 import StoreProvider from "@src/redux/StoreProvider";
 import { cookies } from "next/headers";
-import { USER_CART_URL, USER_DATA_URL } from "@src/utils/URLS";
-import { Cart, CartProduct, Product, User } from "@src/utils/types";
-import { escape } from "querystring";
+import { Cart, User } from "@src/utils/types";
+import { getUserCart, getUserData } from "@src/utils/actions";
+import { Poppins } from "next/font/google";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Outstock E-Commerce Website",
   description: "Developed by Abdelrhman Abdelmoaty",
 };
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let user: User | null = null;
   let cart: Cart = {
     products: [],
   };
 
-  let user: User | null = null;
   const currentUser = cookies().get("currentUser")?.value;
   if (currentUser) {
-    const response = await fetch(USER_DATA_URL, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${currentUser}`,
-      },
-    });
-    const res = await response.json();
-    user = res.data;
-    if (user?.cart) {
-      cart = user.cart;
-    }
+    user = await getUserData();
+    cart = await getUserCart();
+  } else {
     // Else It's Fine But No User
-  }
-  const tempCart = cookies().get("tempCart")?.value;
-  if (tempCart) {
-    cart = JSON.parse(tempCart);
+    const tempCart = cookies().get("tempCart")?.value;
+    if (tempCart) {
+      cart = {
+        ...cart,
+        products: (JSON.parse(tempCart) as Cart).products,
+      };
+    }
   }
 
   return (
     <html lang="en">
-      <link rel="icon" href={favicon.src} sizes="any" />
-      <body>
+      <link rel="icon" href="app/favicon.ico" />
+      <body className={poppins.className}>
         <StoreProvider user={user} cart={cart}>
-          {/* <ReduxProvider> */}
-          {/* <Loader> */}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              classNames: {
+                success: "!text-[var(--secondary-color)] ",
+              },
+            }}
+          />
           {children}
-          {/* </Loader> */}
-          {/* </ReduxProvider> */}
         </StoreProvider>
       </body>
     </html>

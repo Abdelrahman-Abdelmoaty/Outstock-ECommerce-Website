@@ -1,62 +1,62 @@
 "use client";
-import { ChangeEvent, useRef, useState, MouseEvent } from "react";
-import { FormProvider, set, useForm, useFormContext } from "react-hook-form";
-import Input from "@src/components/Form/Input";
-import axios from "axios";
-import { addProductSchema } from "@src/utils/schemas";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { getUserToken } from "@src/utils/lib";
-import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
+// import { ChangeEvent, useRef, useState, MouseEvent } from "react";
+// import { FormProvider, set, useForm, useFormContext } from "react-hook-form";
+// import Input from "@src/components/Form/Input";
+// import axios from "axios";
+// import { addProductSchema } from "@src/utils/schemas";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import { getUserToken } from "@src/utils/lib";
+// import LoadingSpinner from "@src/components/Loading/LoadingSpinner";
 export default function AddProduct() {
-  const [isPending, setIsPending] = useState<boolean>(false);
-  const [added, setAdded] = useState<boolean>(false);
-  const methods = useForm({ resolver: yupResolver(addProductSchema) });
-  // const imagesInput = useRef<HTMLInputElement>(null);
-  const [imagesState, setImages] = useState<string[]>([]);
+  // const [isPending, setIsPending] = useState<boolean>(false);
+  // const [added, setAdded] = useState<boolean>(false);
+  // const methods = useForm({ resolver: yupResolver(addProductSchema) });
+  // // const imagesInput = useRef<HTMLInputElement>(null);
+  // const [imagesState, setImages] = useState<string[]>([]);
 
-  const handleImagesInputBtn = () => {
-    // imagesInput.current?.click();
-    document.getElementById("filesupload")?.click();
-  };
-  const handleImagesInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const imagesUrls = Array.from(e.target.files || []).map((img) =>
-      URL.createObjectURL(img),
-    );
-    setImages(imagesUrls);
-  };
-  const onSubmit = async (data: any) => {
-    setIsPending(true);
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("quantity", data.quantity);
-    const imgs = (document.getElementById("filesupload") as HTMLInputElement)
-      ?.files;
-    if (imgs) {
-      for (let i = 0; i < imgs.length; i++) {
-        formData.append("images[]", imgs[i]);
-      }
-    }
+  // const handleImagesInputBtn = () => {
+  //   // imagesInput.current?.click();
+  //   document.getElementById("filesupload")?.click();
+  // };
+  // const handleImagesInput = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const imagesUrls = Array.from(e.target.files || []).map((img) =>
+  //     URL.createObjectURL(img),
+  //   );
+  //   setImages(imagesUrls);
+  // };
+  // const onSubmit = async (data: any) => {
+  //   setIsPending(true);
+  //   const formData = new FormData();
+  //   formData.append("name", data.name);
+  //   formData.append("price", data.price);
+  //   formData.append("quantity", data.quantity);
+  //   const imgs = (document.getElementById("filesupload") as HTMLInputElement)
+  //     ?.files;
+  //   if (imgs) {
+  //     for (let i = 0; i < imgs.length; i++) {
+  //       formData.append("images[]", imgs[i]);
+  //     }
+  //   }
 
-    try {
-      // const response = await axios.post(`${HOST_URL}api/products`, formData, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //     Authorization: `Bearer ${getUserToken()}`,
-      //   },
-      // });
-    } catch (error) {
-      throw error;
-    }
-    setIsPending(false);
-    setAdded(true);
-    setImages([]);
-    methods.reset();
-  };
+  //   try {
+  //     // const response = await axios.post(`${HOST_URL}api/products`, formData, {
+  //     //   headers: {
+  //     //     "Content-Type": "multipart/form-data",
+  //     //     Authorization: `Bearer ${getUserToken()}`,
+  //     //   },
+  //     // });
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  //   setIsPending(false);
+  //   setAdded(true);
+  //   setImages([]);
+  //   methods.reset();
+  // };
 
   return (
     <div className="bg-white">
-      <FormProvider {...methods}>
+      {/* <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="mx-auto my-12 xl:w-[60%]">
             <input
@@ -133,7 +133,7 @@ export default function AddProduct() {
             </button>
           </div>
         </form>
-      </FormProvider>
+      </FormProvider> */}
     </div>
   );
 }
